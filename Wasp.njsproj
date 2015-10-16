@@ -41,11 +41,12 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="src\test.ts" />
-    <TypeScriptCompile Include="src\waspx.ts" />
+    <TypeScriptCompile Include="src\Wasp.ts" />
     <TypeScriptCompile Include="typings\null.ts" />
     <TypeScriptCompile Include="typings\tsd.d.ts" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="config.js" />
     <Compile Include="library\system.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />

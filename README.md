@@ -1,2 +1,2 @@
 # Wasp
-A Html5 Game Engine ,support 2D and 3D
+A Html5 Game Engine and a set of tools help us to make game easy~
