@@ -1,0 +1,26 @@
+{
+  "name": "wasp",
+  "version": "1.0.0",
+  "description": "A Html5 Game Engine ,support 2D and 3D",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gastrodia/Wasp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gastrodia/Wasp/issues"
+  },
+  "homepage": "https://github.com/gastrodia/Wasp#readme",
+  "dependencies": {
+    "es6-module-loader": "^0.16.6",
+    "systemjs": "^0.16.11"
+  }
+}
