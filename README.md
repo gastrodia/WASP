@@ -1,5 +1,7 @@
-# Wasp
-Very Fast Html5 Game Engine with a set of tools help us to make game easy! 
+# WaspEngine
+Next Generation Html5 Game Engine
+
+
 
 ###demo
 
