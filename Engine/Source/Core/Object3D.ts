@@ -5,7 +5,7 @@ class Object3D{
 
   lookAt(){
 
-  }
+  } 
 }
 
 export = Object3D;

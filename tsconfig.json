@@ -20,6 +20,7 @@
     ],
     "files": [
         "./Engine/Source/Core/Object3D.ts",
+        "./Engine/Source/Math/Vector2.ts",
         "./Engine/Source/Wasp.ts",
         "./Engine/Source/main.ts"
     ]
