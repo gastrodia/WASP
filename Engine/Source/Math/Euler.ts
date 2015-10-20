@@ -91,16 +91,28 @@ class Euler{
 
   }
 
-  equals(){
-
+  equals(euler){
+    return ( euler._x === this._x )
+    && ( euler._y === this._y )
+    && ( euler._z === this._z )
+    && ( euler._order === this._order );
   }
 
-  fromArray(){
-
+  fromArray(array:Array<number|string>){
+    this._x = <number>array[0];
+    this._y = <number>array[1];
+    this._x = <number>array[2];
+    if( array[3] !== undefined){
+      this._order = <string>array[3];
+    }
   }
 
-  toArray(){
-
+  toArray(array:Array<number|string> = [],offset:number = 0){
+    array[offset] = this._x;
+    array[offset + 1] = this._y;
+    array[offset + 2] = this._z;
+    array[offset + 3] = this._order;
+    return array;
   }
 
   toVector3(){
