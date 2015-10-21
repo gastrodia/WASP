@@ -27,9 +27,10 @@
         "./Engine/Source/Math/Quaternion.ts",
         "./Engine/Source/Math/Vector2.ts",
         "./Engine/Source/Math/Vector3.ts",
-        "./Engine/Source/Renderer/WebGLRenderTargetCube.ts",
-        "./Engine/Source/Renderer/WebGLRenderer.ts",
-        "./Engine/Source/Renderer/WebGLRendererTarget.ts",
+        "./Engine/Source/Math/Vector4.ts",
+        "./Engine/Source/Renderers/WebGLRenderTargetCube.ts",
+        "./Engine/Source/Renderers/WebGLRenderer.ts",
+        "./Engine/Source/Renderers/WebGLRendererTarget.ts",
         "./Engine/Source/Wasp.ts",
         "./Engine/Source/main.ts"
     ]
