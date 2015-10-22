@@ -77,8 +77,50 @@ class Matrix3{
     return a*e*i - a*f*h - b*d*i + b*f*g + c*d*h - c*e*g;
   }
 
-  getInverse(matrix:Matrix4,throwOnInvertible){
+  getInverse(matrix:Matrix4,throwOnInvertible?:any):Matrix3{
 
+    		// ( based on http://code.google.com/p/webgl-mjs/ )
+
+    		var me = matrix.elements;
+    		var te = this.elements;
+
+    		te[ 0 ] =   me[ 10 ] * me[ 5 ] - me[ 6 ] * me[ 9 ];
+    		te[ 1 ] = - me[ 10 ] * me[ 1 ] + me[ 2 ] * me[ 9 ];
+    		te[ 2 ] =   me[ 6 ] * me[ 1 ] - me[ 2 ] * me[ 5 ];
+    		te[ 3 ] = - me[ 10 ] * me[ 4 ] + me[ 6 ] * me[ 8 ];
+    		te[ 4 ] =   me[ 10 ] * me[ 0 ] - me[ 2 ] * me[ 8 ];
+    		te[ 5 ] = - me[ 6 ] * me[ 0 ] + me[ 2 ] * me[ 4 ];
+    		te[ 6 ] =   me[ 9 ] * me[ 4 ] - me[ 5 ] * me[ 8 ];
+    		te[ 7 ] = - me[ 9 ] * me[ 0 ] + me[ 1 ] * me[ 8 ];
+    		te[ 8 ] =   me[ 5 ] * me[ 0 ] - me[ 1 ] * me[ 4 ];
+
+    		var det = me[ 0 ] * te[ 0 ] + me[ 1 ] * te[ 3 ] + me[ 2 ] * te[ 6 ];
+
+    		// no inverse
+
+    		if ( det === 0 ) {
+
+    			var msg = "Matrix3.getInverse(): can't invert matrix, determinant is 0";
+
+    			if ( throwOnInvertible || false ) {
+
+    				throw new Error( msg );
+
+    			} else {
+
+    				console.warn( msg );
+
+    			}
+
+    			this.identity();
+
+    			return this;
+
+    		}
+
+    		this.multiplyScalar( 1.0 / det );
+
+    		return this;
   }
 
   transpose(){

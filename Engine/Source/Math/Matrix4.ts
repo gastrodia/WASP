@@ -1,6 +1,7 @@
 import Vector3 = require('./Vector3');
 import Euler = require('./Euler');
 import Quaternion = require('./Quaternion');
+import MathUtil = require('./MathUtil');
 class Matrix4{
   constructor(public elements:Float32Array = new Float32Array([
     1,0,0,0,
@@ -734,7 +735,7 @@ class Matrix4{
 
   makePerspective( fov, aspect, near, far ) {
 
-		var ymax = near * Math.tan( THREE.Math.degToRad( fov * 0.5 ) );
+		var ymax = near * Math.tan( MathUtil.degToRad( fov * 0.5 ) );
 		var ymin = - ymax;
 		var xmin = ymin * aspect;
 		var xmax = ymax * aspect;
