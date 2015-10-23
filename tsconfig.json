@@ -19,6 +19,7 @@
         "./Engine/Typings/**/*.ts"
     ],
     "files": [
+        "./Engine/Source/Core/Channels.ts",
         "./Engine/Source/Core/Object3D.ts",
         "./Engine/Source/Math/Euler.ts",
         "./Engine/Source/Math/MathUtil.ts",

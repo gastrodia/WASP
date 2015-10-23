@@ -498,7 +498,7 @@ class Matrix4{
 
 		if ( det === 0 ) {
 
-			var msg = "THREE.Matrix4.getInverse(): can't invert matrix, determinant is 0";
+			var msg = "Matrix4.getInverse(): can't invert matrix, determinant is 0";
 
 			if ( throwOnInvertible || false ) {
 
@@ -713,6 +713,7 @@ class Matrix4{
 			return this;
   }
 
+  //平截头体，用于透视计算
   makeFrustum ( left, right, bottom, top, near, far ) {
 
 		var te = this.elements;
@@ -733,6 +734,7 @@ class Matrix4{
 
 	}
 
+  //透视
   makePerspective( fov, aspect, near, far ) {
 
 		var ymax = near * Math.tan( MathUtil.degToRad( fov * 0.5 ) );
@@ -744,6 +746,7 @@ class Matrix4{
 
 	}
 
+  //平视
 	makeOrthographic( left, right, top, bottom, near, far ) {
 
 		var te = this.elements;
