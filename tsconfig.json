@@ -20,6 +20,9 @@
     ],
     "files": [
         "./Engine/Source/Editor/UIEditor/try.ts",
+        "./Engine/Source/Runtime/Core/Channels.ts",
+        "./Engine/Source/Runtime/Core/EventDispatcher.ts",
+        "./Engine/Source/Runtime/Core/Object3d.ts",
         "./Engine/Source/Runtime/Math/Core/Channels.ts",
         "./Engine/Source/Runtime/Math/Core/Object3D.ts",
         "./Engine/Source/Runtime/Math/Euler.ts",
