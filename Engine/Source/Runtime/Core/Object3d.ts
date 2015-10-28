@@ -52,6 +52,16 @@ material;
 
 userData = {};
 
+constructor(){
+
+	this.rotation.onChange( ()=>{
+    this.quaternion.setFromEuler( this.rotation, false );
+  } );
+	this.quaternion.onChange( ()=>{
+    this.rotation.setFromQuaternion( this.quaternion, undefined, false );
+  } );
+}
+
   get eulerOrder(){
     return   this.rotation.order;
   }
@@ -536,7 +546,7 @@ toJSON ( meta ) {
 
   	}
 
-    copy( source, recursive ) {
+    copy( source, recursive ) :Object3D{
 
 		if ( recursive === undefined ) recursive = true;
 
@@ -581,9 +591,6 @@ toJSON ( meta ) {
 
 	}
 
-  constructor(){
-
-  }
 
 
 }

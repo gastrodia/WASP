@@ -20,9 +20,15 @@
     ],
     "files": [
         "./Engine/Source/Editor/UIEditor/try.ts",
+        "./Engine/Source/Runtime/Cameras/Camera.ts",
+        "./Engine/Source/Runtime/Cameras/PerspectiveCamera.ts",
         "./Engine/Source/Runtime/Core/Channels.ts",
         "./Engine/Source/Runtime/Core/EventDispatcher.ts",
-        "./Engine/Source/Runtime/Core/Object3d.ts",
+        "./Engine/Source/Runtime/Core/Geometry.ts",
+        "./Engine/Source/Runtime/Core/Object3D.ts",
+        "./Engine/Source/Runtime/Extras/Geometries/BoxGeometry.ts",
+        "./Engine/Source/Runtime/Materials/Material.ts",
+        "./Engine/Source/Runtime/Materials/MeshBasicMaterial.ts",
         "./Engine/Source/Runtime/Math/Core/Channels.ts",
         "./Engine/Source/Runtime/Math/Core/Object3D.ts",
         "./Engine/Source/Runtime/Math/Euler.ts",
@@ -33,9 +39,11 @@
         "./Engine/Source/Runtime/Math/Vector2.ts",
         "./Engine/Source/Runtime/Math/Vector3.ts",
         "./Engine/Source/Runtime/Math/Vector4.ts",
+        "./Engine/Source/Runtime/Objects/Mesh.ts",
         "./Engine/Source/Runtime/Renderers/WebGLRenderTargetCube.ts",
         "./Engine/Source/Runtime/Renderers/WebGLRenderer.ts",
         "./Engine/Source/Runtime/Renderers/WebGLRendererTarget.ts",
+        "./Engine/Source/Runtime/Scenes/Scene.ts",
         "./Engine/Source/Wasp.ts",
         "./Engine/Source/main.ts"
     ]
