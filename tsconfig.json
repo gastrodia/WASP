@@ -19,6 +19,9 @@
         "./Engine/Typings/**/*.ts"
     ],
     "files": [
+        "./Engine/Source/Editor/DataDriveUI/Component/List.ts",
+        "./Engine/Source/Editor/DataDriveUI/File/Article.ts",
+        "./Engine/Source/Editor/DataDriveUI/Rest/RestClient.ts",
         "./Engine/Source/Editor/UIEditor/try.ts",
         "./Engine/Source/Runtime/Cameras/Camera.ts",
         "./Engine/Source/Runtime/Cameras/PerspectiveCamera.ts",
