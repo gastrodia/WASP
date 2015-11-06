@@ -24,6 +24,7 @@
   "homepage": "https://github.com/gastrodia/Wasp#readme",
   "dependencies": {
     "es6-module-loader": "^0.16.6",
+    "radium": "^0.14.3",
     "systemjs": "^0.16.11",
     "wozllajs": "^2.0.0"
   }
