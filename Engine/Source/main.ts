@@ -16,7 +16,7 @@ var material = new MeshBasicMaterial( { color: 0x00ff00 } );
 var cube = new Mesh( geometry, material );
 scene.add( cube );
 
-camera.position.z = 5;
+camera.position.z = 5; 
 
 var render = function () {
 	requestAnimationFrame( render );

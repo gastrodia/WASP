@@ -19,10 +19,14 @@
         "./Engine/Typings/**/*.ts"
     ],
     "files": [
-        "./Engine/Source/Editor/DataDriveUI/Component/List.ts",
-        "./Engine/Source/Editor/DataDriveUI/File/Article.ts",
-        "./Engine/Source/Editor/DataDriveUI/Rest/RestClient.ts",
-        "./Engine/Source/Editor/UIEditor/try.ts",
+        "./Engine/Source/Editor/atom/atomUtils.ts",
+        "./Engine/Source/Editor/atom/views/mainPanelView.ts",
+        "./Engine/Source/Editor/atom/views/view.ts",
+        "./Engine/Source/Editor/globals.ts",
+        "./Engine/Source/Editor/tsd.d.ts",
+        "./Engine/Source/Editor/utils/fsUtil.ts",
+        "./Engine/Source/Editor/WaspEditor.ts",
+        "./Engine/Source/main.ts",
         "./Engine/Source/Runtime/Cameras/Camera.ts",
         "./Engine/Source/Runtime/Cameras/PerspectiveCamera.ts",
         "./Engine/Source/Runtime/Core/Channels.ts",
@@ -43,11 +47,10 @@
         "./Engine/Source/Runtime/Math/Vector3.ts",
         "./Engine/Source/Runtime/Math/Vector4.ts",
         "./Engine/Source/Runtime/Objects/Mesh.ts",
-        "./Engine/Source/Runtime/Renderers/WebGLRenderTargetCube.ts",
         "./Engine/Source/Runtime/Renderers/WebGLRenderer.ts",
         "./Engine/Source/Runtime/Renderers/WebGLRendererTarget.ts",
+        "./Engine/Source/Runtime/Renderers/WebGLRenderTargetCube.ts",
         "./Engine/Source/Runtime/Scenes/Scene.ts",
-        "./Engine/Source/Wasp.ts",
-        "./Engine/Source/main.ts"
+        "./Engine/Source/Wasp.ts"
     ]
 }

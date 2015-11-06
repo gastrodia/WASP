@@ -1,0 +1,28 @@
+# See https://atom.io/docs/latest/hacking-atom-package-word-count#menus for more details
+'context-menu':
+  'atom-text-editor': [
+    {
+      'label': 'Toggle wasp-editor'
+      'command': 'wasp-editor:toggle'
+    }
+  ]
+  '.tree-view .file .name[data-name$=\\.html]':[
+    {
+      'label': 'Open With WaspEditor111'
+      'command':  'wasp-ui-editor:openfile'
+    }
+  ]
+'menu': [
+  {
+    'label': 'Packages'
+    'submenu': [
+      'label': 'wasp-editor'
+      'submenu': [
+        {
+          'label': 'Toggle'
+          'command': 'wasp-editor:toggle'
+        }
+      ]
+    ]
+  }
+]
