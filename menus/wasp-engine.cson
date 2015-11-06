@@ -6,10 +6,10 @@
       'command': 'wasp-editor:toggle'
     }
   ]
-  '.tree-view .file .name[data-name$=\\.html]':[
+  '.tree-view .file .name[data-name$=\\.json]':[
     {
-      'label': 'Open With WaspEditor111'
-      'command':  'wasp-ui-editor:openfile'
+      'label': 'Open With AnimEditor'
+      'command':  'wasp-editor:openfile'
     }
   ]
 'menu': [

@@ -1,6 +1,6 @@
-import * as fsu from "../utils/fsUtil";
+import * as fsu from "../Utils/fsUtil";
 import url = require('url');
-import path = require('path'); 
+import path = require('path');
 
 /** Gets the consisten path for the current editor */
 export function getCurrentPath() {

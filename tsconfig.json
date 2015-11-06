@@ -19,12 +19,14 @@
         "./Engine/Typings/**/*.ts"
     ],
     "files": [
-        "./Engine/Source/Editor/atom/atomUtils.ts",
-        "./Engine/Source/Editor/atom/views/mainPanelView.ts",
-        "./Engine/Source/Editor/atom/views/view.ts",
+        "./Engine/Source/Editor/Atom/atomUtils.ts",
+        "./Engine/Source/Editor/Atom/views/view.ts",
+        "./Engine/Source/Editor/config.ts",
         "./Engine/Source/Editor/globals.ts",
+        "./Engine/Source/Editor/Modules/AnimEditor/AnimEditor.ts",
+        "./Engine/Source/Editor/Modules/AnimEditor/AnimEditorView.ts",
         "./Engine/Source/Editor/tsd.d.ts",
-        "./Engine/Source/Editor/utils/fsUtil.ts",
+        "./Engine/Source/Editor/Utils/fsUtil.ts",
         "./Engine/Source/Editor/WaspEditor.ts",
         "./Engine/Source/main.ts",
         "./Engine/Source/Runtime/Cameras/Camera.ts",

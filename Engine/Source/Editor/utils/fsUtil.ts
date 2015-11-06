@@ -5,10 +5,10 @@
 /** we work with "/" for all paths (so does the typescript language service) */
 export function consistentPath(filePath: string): string {
     return filePath.split('\\').join('/');
-} 
+}
 
 import * as path from "path";
-
+ 
 /**
  * Resolves to to an absolute path.
  * @param from,to,to,to...

@@ -1,27 +1,27 @@
 import {$} from "atom-space-pen-views";
 import url = require('url');
-import {WaspEditorView,waspUIEditorURI} from './atom/views/mainPanelView';
+import {AnimEditorView,AnimEidtorURI} from './Modules/AnimEditor/AnimEditorView';
 import atomUtils = require("./atom/atomUtils");
 export interface PackageState {
 }
 
 export function activate(state: PackageState) {
-  console.log('activate')
-    atom.commands.add('.tree-view .file .name[data-name$=\\.html]', 'wasp-editor:openfile', (e) => {
+
+    atom.commands.add('.tree-view .file .name[data-name$=\\.json]', 'wasp-editor:openfile', (e) => {
       this.openfile(e);
     });
 
     atomUtils.registerOpener({
         commandSelector: 'atom-workspace',
-        commandName: 'wasp:wasp-view',
-        uriProtocol: waspUIEditorURI,
+        commandName: 'wasp:anim-editor',
+        uriProtocol: AnimEidtorURI,
         getData: () => {
             return {
                 filePath: atomUtils.getCurrentPath()
             };
         },
         onOpen: (data) => {
-            return new WaspEditorView(data.filePath);
+            return new AnimEditorView(data.filePath);
         }
     });
 }
@@ -30,7 +30,7 @@ export function openfile(e){
   console.log(e);
   var filePath = e.target.dataset.path;
   console.log(filePath)
-  atom.workspace.open(atomUtils.uriForPath(waspUIEditorURI, this.filePath), {searchAllPanes: true});
+  atom.workspace.open(atomUtils.uriForPath(AnimEidtorURI, this.filePath), {searchAllPanes: true});
 }
 
 export function deactivate(){
