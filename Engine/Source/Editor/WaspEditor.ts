@@ -15,22 +15,15 @@ export function activate(state: PackageState) {
         commandSelector: 'atom-workspace',
         commandName: 'wasp:anim-editor',
         uriProtocol: AnimEidtorURI,
-        getData: () => {
-            return {
-                filePath: atomUtils.getCurrentPath()
-            };
-        },
         onOpen: (data) => {
             return new AnimEditorView(data.filePath);
         }
     });
-}
+} 
 
 export function openfile(e){
-  console.log(e);
   var filePath = e.target.dataset.path;
-  console.log(filePath)
-  atom.workspace.open(atomUtils.uriForPath(AnimEidtorURI, this.filePath), {searchAllPanes: true});
+  atom.workspace.open(atomUtils.uriForPath(AnimEidtorURI, filePath), {searchAllPanes: true,filePath:filePath});
 }
 
 export function deactivate(){
