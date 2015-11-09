@@ -12,17 +12,17 @@
       'command':  'wasp-editor:openfile'
     }
   ]
-'menu': [
-  {
-    'label': 'Packages'
-    'submenu': [
-      'label': 'wasp-editor'
-      'submenu': [
-        {
-          'label': 'Toggle'
-          'command': 'wasp-editor:toggle'
-        }
-      ]
-    ]
-  }
-]
+# 'menu': [
+#   {
+#     'label': 'Packages'
+#     'submenu': [
+#       'label': 'wasp-editor'
+#       'submenu': [
+#         {
+#           'label': 'Toggle'
+#           'command': 'wasp-editor:toggle'
+#         }
+#       ]
+#     ]
+#   }
+# ]
