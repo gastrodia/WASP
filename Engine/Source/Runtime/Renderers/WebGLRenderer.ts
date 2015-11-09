@@ -1,4 +1,7 @@
 import Color = require('../Math/Color');
+import Frustum = require('../Math/Frustum');
+import Martix4 = require('../Math/Matrix4');
+import Vector3 = require('../Math/Vector3');
 class WebGLRenderer{
 
   private _canvas;
@@ -10,8 +13,8 @@ class WebGLRenderer{
   private _depth;
   private _stencil;
   private _antialias;
-  private _premultipliedAlhpa;
-  private _preserverDrawingBuffer;
+  private _premultipliedAlpha;
+  private _preserveDrawingBuffer;
   private _clearColor:Color = new Color(0x000000);
   private _clearAlpha = 0;
 
@@ -67,7 +70,85 @@ class WebGLRenderer{
 
   //frustum
   private _frustum = new Frustum();
+
+  //camera matrices cache
+  private _projScreenMatrix = new Martix4();
+  private _vector3 = new Vector3();
+
+  //lights array cache
+  private _direction = new Vector3();
+  private _lightsNeedUpdate = true;
+
+  private _lights = {
+    ambient:[0,0,0],
+    directional:{length:0,color:[],positions:[]},
+    point:{length:0,colors:[],positions:[],distances:[],decays:{}},
+    spot:{length:0,colors:[],positions:[],distances:{},directions:{},anglesCos: [], exponents: [], decays: [] },
+    hemi:{length: 0, skyColors: [], groundColors: [], positions: [] }
+  }
+
+  private _infoMemory = {
+    geometries: 0,
+    textures: 0
+  }
+
+  private _infoRender = {
+    calls: 0,
+		vertices: 0,
+		faces: 0,
+		points: 0
+  }
+
+  private info = {
+    render: this._infoRender,
+		memory: this._infoMemory,
+		programs: null
+  }
+
+  private _gl;
   constructor(parametes){
+    try{
+      var attributes = {
+			alpha: this._alpha,
+			depth: this._depth,
+			stencil: this._stencil,
+			antialias: this._antialias,
+			premultipliedAlpha: this._premultipliedAlpha,
+			preserveDrawingBuffer: this._preserveDrawingBuffer
+		};
+
+		this._gl = this._context || this._canvas.getContext( 'webgl', attributes )
+     || this._canvas.getContext( 'experimental-webgl', attributes );
+
+		if ( this._gl === null ) {
+
+			if ( this._canvas.getContext( 'webgl' ) !== null ) {
+
+				throw 'Error creating WebGL context with your selected attributes.';
+
+			} else {
+
+				throw 'Error creating WebGL context.';
+
+			}
+
+		}
+
+		this._canvas.addEventListener( 'webglcontextlost', this.onContextLost, false );
+    }catch(error){
+
+    }
+
+    var extensions = WebGLExtensions(this._gl);
+    extensions.get( 'OES_texture_float' );
+	extensions.get( 'OES_texture_float_linear' );
+	extensions.get( 'OES_texture_half_float' );
+	extensions.get( 'OES_texture_half_float_linear' );
+	extensions.get( 'OES_standard_derivatives' );
+	extensions.get( 'ANGLE_instanced_arrays' );
+  }
+
+  onContextLost(){
 
   }
   setSize ( width, height, updateStyle?:any ) {
