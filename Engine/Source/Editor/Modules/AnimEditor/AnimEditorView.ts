@@ -80,16 +80,29 @@ export class AnimEditorView<Options> extends sp.ScrollView {
           gameObject.rectTransform.px = getOriginalOffset().x;
           gameObject.rectTransform.py = getOriginalOffset().y;
 
-          var spritRenderer = new WOZLLA.component.SpriteRenderer();
-          spritRenderer.align.set(WOZLLA.ALIGN_CENTER);
-          spritRenderer.valign.set(WOZLLA.VALIGN_MIDDLE);
-          spritRenderer.spriteAtlas.set(this.filePath);
-          //  spritRenderer.spriteAtlas.set('http://localhost/tswanba/tsv2_res/res/battle/skill/SK101101/shield.tt.json');
-          gameObject.addComponent(spritRenderer);
+          if(this.filePath.indexOf('ExportJson') > - 1){
+            var delExtPath = this.filePath.split('.ExportJson')[0];
+            let cocosBone = new WOZLLA.cocos2d.CocosBoneRenderer();
+           cocosBone.exportJson.set(delExtPath + '.ExportJson');
+           cocosBone.spriteSrc.set(delExtPath  + '0.plist.tt.json');
+           cocosBone.imageSrc.set(delExtPath  + '0.png');
+           cocosBone.frameTime.set(100);
+           cocosBone.defaultAction.set('Animation1');
+           gameObject.addComponent(cocosBone);
+          }else{
+            var spritRenderer = new WOZLLA.component.SpriteRenderer();
+            spritRenderer.align.set(WOZLLA.ALIGN_CENTER);
+            spritRenderer.valign.set(WOZLLA.VALIGN_MIDDLE);
+            spritRenderer.spriteAtlas.set(this.filePath);
+            //  spritRenderer.spriteAtlas.set('http://localhost/tswanba/tsv2_res/res/battle/skill/SK101101/shield.tt.json');
+            gameObject.addComponent(spritRenderer);
 
-          var spritAnimation = new WOZLLA.component.SpriteAnimation();
-          spritAnimation.loop.set(true);
-          gameObject.addComponent(spritAnimation);
+            var spritAnimation = new WOZLLA.component.SpriteAnimation();
+            spritAnimation.loop.set(true);
+            gameObject.addComponent(spritAnimation);
+          }
+
+
 
           var getNumberOf = function($elem){
             if($elem.val()){

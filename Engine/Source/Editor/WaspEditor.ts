@@ -11,15 +11,19 @@ export function activate(state: PackageState) {
       this.openfile(e);
     });
 
+    atom.commands.add('.tree-view .file .name[data-name$=\\.ExportJson]', 'wasp-editor:openfile', (e) => {
+      this.openfile(e);
+    });
+
     atomUtils.registerOpener({
         commandSelector: 'atom-workspace',
         commandName: 'wasp:anim-editor',
         uriProtocol: AnimEidtorURI,
         onOpen: (data) => {
-            return new AnimEditorView(data.filePath);
+            return new AnimEditorView(data.filePath); 
         }
     });
-} 
+}
 
 export function openfile(e){
   var filePath = e.target.dataset.path;
