@@ -1,5 +1,6 @@
 import Euler = require('./Euler');
 import Matrix3 = require('./Matrix3');
+import Vector3 = require('./Vector3');
 class Quaternion{
   private _x:number;
   private _y:number;
@@ -192,9 +193,225 @@ class Quaternion{
 		return this;
   }
 
+  setFromUnitVectors(vFrom,vTo){
+    var EPS = 0.000001;
+    var v1 = new Vector3();
+    var r = vFrom.dot(vTo) + 1;
+    r = vFrom.dot( vTo ) + 1;
+
+			if ( r < EPS ) {
+
+				r = 0;
+
+				if ( Math.abs( vFrom.x ) > Math.abs( vFrom.z ) ) {
+
+					v1.set( - vFrom.y, vFrom.x, 0 );
+
+				} else {
+
+					v1.set( 0, - vFrom.z, vFrom.y );
+
+				}
+
+			} else {
+
+				v1.crossVectors( vFrom, vTo );
+
+			}
+
+			this._x = v1.x;
+			this._y = v1.y;
+			this._z = v1.z;
+			this._w = r;
+
+			this.normalize();
+
+			return this;
+
+  }
+
+  inverse(){
+    this.conjugate().normalize();
+    return this;
+  }
+
+  conjugate(){
+    this._x *= -1;
+    this._y *= -1;
+    this._z *= -1;
+    this.onChangeCallback();
+    return this;
+  }
+
+  dot(v:Quaternion){
+    return this._x * v._x + this._y * v._y + this._z * v._z + this._w * v._w;
+  }
+
+  lengthSq(){
+    return this._x * this._x + this._y * this._y + this._z * this._z + this._w * this._w;
+  }
+
+  length(){
+    return Math.sqrt(this.lengthSq())
+  }
+
+  normalize(){
+    var l = this.length();
+
+    		if ( l === 0 ) {
+
+    			this._x = 0;
+    			this._y = 0;
+    			this._z = 0;
+    			this._w = 1;
+
+    		} else {
+
+    			l = 1 / l;
+
+    			this._x = this._x * l;
+    			this._y = this._y * l;
+    			this._z = this._z * l;
+    			this._w = this._w * l;
+
+    		}
+
+    		this.onChangeCallback();
+
+    		return this;
+  }
+
+  multiply(q){
+    return this.multiplyQuaternions(this,q);
+  }
+
+  multiplyQuaternions( a, b ) {
+
+    		var qax = a._x, qay = a._y, qaz = a._z, qaw = a._w;
+    		var qbx = b._x, qby = b._y, qbz = b._z, qbw = b._w;
+
+    		this._x = qax * qbw + qaw * qbx + qay * qbz - qaz * qby;
+    		this._y = qay * qbw + qaw * qby + qaz * qbx - qax * qbz;
+    		this._z = qaz * qbw + qaw * qbz + qax * qby - qay * qbx;
+    		this._w = qaw * qbw - qax * qbx - qay * qby - qaz * qbz;
+
+    		this.onChangeCallback();
+
+    		return this;
+
+  }
+
+  slerp( qb, t){
+    if ( t === 0 ) return this;
+    		if ( t === 1 ) return this.copy( qb );
+
+    		var x = this._x, y = this._y, z = this._z, w = this._w;
+
+    		// http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/slerp/
+
+    		var cosHalfTheta = w * qb._w + x * qb._x + y * qb._y + z * qb._z;
+
+    		if ( cosHalfTheta < 0 ) {
+
+    			this._w = - qb._w;
+    			this._x = - qb._x;
+    			this._y = - qb._y;
+    			this._z = - qb._z;
+
+    			cosHalfTheta = - cosHalfTheta;
+
+    		} else {
+
+    			this.copy( qb );
+
+    		}
+
+    		if ( cosHalfTheta >= 1.0 ) {
+
+    			this._w = w;
+    			this._x = x;
+    			this._y = y;
+    			this._z = z;
+
+    			return this;
+
+    		}
+
+    		var halfTheta = Math.acos( cosHalfTheta );
+    		var sinHalfTheta = Math.sqrt( 1.0 - cosHalfTheta * cosHalfTheta );
+
+    		if ( Math.abs( sinHalfTheta ) < 0.001 ) {
+
+    			this._w = 0.5 * ( w + this._w );
+    			this._x = 0.5 * ( x + this._x );
+    			this._y = 0.5 * ( y + this._y );
+    			this._z = 0.5 * ( z + this._z );
+
+    			return this;
+
+    		}
+
+    		var ratioA = Math.sin( ( 1 - t ) * halfTheta ) / sinHalfTheta,
+    		ratioB = Math.sin( t * halfTheta ) / sinHalfTheta;
+
+    		this._w = ( w * ratioA + this._w * ratioB );
+    		this._x = ( x * ratioA + this._x * ratioB );
+    		this._y = ( y * ratioA + this._y * ratioB );
+    		this._z = ( z * ratioA + this._z * ratioB );
+
+    		this.onChangeCallback();
+
+    		return this;
+  }
+
+  equals(quaternion){
+    return ( quaternion._x === this._x ) && ( quaternion._y === this._y ) && ( quaternion._z === this._z ) && ( quaternion._w === this._w );
+
+  }
+
+  fromArray(array,offset?:number){
+    if ( offset === undefined ) offset = 0;
+
+  		this._x = array[ offset ];
+  		this._y = array[ offset + 1 ];
+  		this._z = array[ offset + 2 ];
+  		this._w = array[ offset + 3 ];
+
+  		this.onChangeCallback();
+
+  		return this;
+  }
+
+  toArray(array?:Array<any>,offset?:number){
+    if ( array === undefined ) array = [];
+		if ( offset === undefined ) offset = 0;
+
+		array[ offset ] = this._x;
+		array[ offset + 1 ] = this._y;
+		array[ offset + 2 ] = this._z;
+		array[ offset + 3 ] = this._w;
+
+		return array;
+  }
+
+  onChange( callback ) {
+
+		this.onChangeCallback = callback;
+
+		return this;
+
+	}
+
+
   onChangeCallback(){
 
   }
+
+  static slerp = function ( qa, qb, qm, t ) {
+
+  	return qm.copy( qa ).slerp( qb, t );
+
+  };
 }
 
 export = Quaternion;
