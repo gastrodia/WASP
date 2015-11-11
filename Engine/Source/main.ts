@@ -1,9 +1,9 @@
-import Scene = require('./Runtime/Scenes/Scene');
-import PerspectiveCamera = require('./Runtime/Cameras/PerspectiveCamera');
-import WebGLRenderer = require('./Runtime/Renderers/WebGLRenderer');
-import BoxGeometry = require('./Runtime/Extras/Geometries/BoxGeometry');
-import MeshBasicMaterial = require('./Runtime/Materials/MeshBasicMaterial');
-import Mesh = require('./Runtime/Objects/Mesh');
+import Scene = require('./Runtime/Renderer/Scenes/Scene');
+import PerspectiveCamera = require('./Runtime/Renderer/Cameras/PerspectiveCamera');
+import WebGLRenderer = require('./Runtime/Renderer/Renderers/WebGLRenderer');
+import BoxGeometry = require('./Runtime/Renderer/Extras/Geometries/BoxGeometry');
+import MeshBasicMaterial = require('./Runtime/Renderer/Materials/MeshBasicMaterial');
+import Mesh = require('./Runtime/Renderer/Objects/Mesh');
 var scene = new Scene();
 var camera = new PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
 
@@ -16,7 +16,7 @@ var material = new MeshBasicMaterial( { color: 0x00ff00 } );
 var cube = new Mesh( geometry, material );
 scene.add( cube );
 
-camera.position.z = 5; 
+camera.position.z = 5;
 
 var render = function () {
 	requestAnimationFrame( render );

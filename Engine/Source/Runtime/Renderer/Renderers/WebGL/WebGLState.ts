@@ -1,0 +1,5 @@
+class WebGLState{
+
+}
+
+export = WebGLState;

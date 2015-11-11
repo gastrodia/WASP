@@ -1,7 +1,7 @@
 {
   "name": "WaspEngine",
   "version": "1.0.0",
-  "description": "A Html5 Game Engine ,support 2D and 3D",
+  "description": "Next Generation Html5 Game Engine",
   "main": "Engine/Build/Editor/WaspEditor",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"

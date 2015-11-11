@@ -1,0 +1,5 @@
+class Frustum{
+
+}
+
+export = Frustum;

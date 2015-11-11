@@ -2,6 +2,8 @@ import Color = require('../Math/Color');
 import Frustum = require('../Math/Frustum');
 import Martix4 = require('../Math/Matrix4');
 import Vector3 = require('../Math/Vector3');
+import WebGLExtensions = require('./WebGL/WebGLExtensions');
+import WebGLCapabilities = require('./WebGL/WebGLCapabilities');
 class WebGLRenderer{
 
   private _canvas;
@@ -139,13 +141,48 @@ class WebGLRenderer{
 
     }
 
-    var extensions = WebGLExtensions(this._gl);
+    var extensions = new WebGLExtensions(this._gl);
     extensions.get( 'OES_texture_float' );
-	extensions.get( 'OES_texture_float_linear' );
-	extensions.get( 'OES_texture_half_float' );
-	extensions.get( 'OES_texture_half_float_linear' );
-	extensions.get( 'OES_standard_derivatives' );
-	extensions.get( 'ANGLE_instanced_arrays' );
+  	extensions.get( 'OES_texture_float_linear' );
+  	extensions.get( 'OES_texture_half_float' );
+  	extensions.get( 'OES_texture_half_float_linear' );
+  	extensions.get( 'OES_standard_derivatives' );
+  	extensions.get( 'ANGLE_instanced_arrays' );
+
+
+	if ( extensions.get( 'OES_element_index_uint' ) ) {
+
+	   BufferGeometry.MaxIndex = 4294967296;
+
+	}
+
+	var capabilities = new WebGLCapabilities( this._gl, extensions, parameters );
+
+	var state = new WebGLState( this._gl, extensions, paramThreeToGL );
+	var properties = new WebGLProperties();
+	var objects = new WebGLObjects( this._gl, properties, this.info );
+	var programCache = new WebGLPrograms( this, capabilities );
+
+	this.info.programs = programCache.programs;
+
+	var bufferRenderer = new WebGLBufferRenderer( this._gl, extensions, this._infoRender );
+	var indexedBufferRenderer = new WebGLIndexedBufferRenderer( this._gl, extensions, this._infoRender );
+  }
+
+  glClearColor(r:number,g:number,b:number,a:number){
+    if(this._premultipliedAlpha === true){
+      r *= a; g *= a; b *= a;
+    }
+    this._gl.clearColor(r,g,b,a);
+  }
+
+  resetGLState(){
+    this._currentProgram = null;
+    this._currentCamera = null;
+    this._currentGeometryProgram = '';
+    this._currentMaterialId = -1;
+    this._lightsNeedUpdate = true;
+    this.state.reset();
   }
 
   onContextLost(){

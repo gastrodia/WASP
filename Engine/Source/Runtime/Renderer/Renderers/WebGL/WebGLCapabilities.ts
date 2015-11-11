@@ -1,0 +1,5 @@
+class WebGLCapabilities{
+
+}
+
+export = WebGLCapabilities;
