@@ -29,7 +29,6 @@
         "./Engine/Source/Editor/tsd.d.ts",
         "./Engine/Source/Editor/utils/fsUtil.ts",
         "./Engine/Source/Editor/WaspEditor.ts",
-        "./Engine/Source/main.ts",
         "./Engine/Source/Runtime/Audio/Audio.ts",
         "./Engine/Source/Runtime/RenderCore/RenderCore.ts",
         "./Engine/Source/Runtime/Renderer/Cameras/Camera.ts",
@@ -68,6 +67,9 @@
         "./Engine/Source/Runtime/Renderer/Renderers/WebGLRendererTarget.ts",
         "./Engine/Source/Runtime/Renderer/Renderers/WebGLRenderTargetCube.ts",
         "./Engine/Source/Runtime/Renderer/Scenes/Scene.ts",
+        "./Engine/Source/Test/AudioTest.ts",
+        "./Engine/Source/Test/main.ts",
+        "./Engine/Source/Tester/Tester.ts",
         "./Engine/Source/Wasp.ts"
     ],
     "exclude": []
