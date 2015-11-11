@@ -4,7 +4,7 @@ import WOZLLA = require('wozllajs');
 import fs = require('fs');
 import React = require('react');
 import ReactDOM = require('react-dom');
-export var UIEidtorURI = "wasp-ui-editor:";
+var UIEidtorURI = "wasp-ui-editor:";
 import UIEditor = require('./UIEditor');
 
 
@@ -62,4 +62,24 @@ export class UIEditorView<Options> extends sp.ScrollView {
     getTitle = () => 'UIEditor'
     getIconName = () => 'git-compare'
 
+    static openUIFile(e){
+     var filePath = e.target.dataset.path;
+     atom.workspace.open(atomUtils.uriForPath(UIEidtorURI, filePath), {searchAllPanes: true,filePath:filePath});
+    }
+
+    static load(){
+      atom.commands.add('.tree-view .file .name[data-name$=\\.json]', 'wasp-editor:uieditor', (e) => {
+        UIEditorView.openUIFile(e);
+      });
+
+
+      atomUtils.registerOpener({
+          commandSelector: 'atom-workspace',
+          commandName: 'wasp:ui-editor',
+          uriProtocol: UIEidtorURI,
+          onOpen: (data) => {
+              return new UIEditorView(data.filePath);
+          }
+      });
+    }
 }

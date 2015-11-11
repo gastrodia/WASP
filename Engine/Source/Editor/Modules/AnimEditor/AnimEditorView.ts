@@ -2,7 +2,7 @@ import sp = require('atom-space-pen-views');
 import atomUtils = require('../../Atom/atomUtils');
 import WOZLLA = require('wozllajs');
 import fs = require('fs');
-export var AnimEidtorURI = "wasp-anim-editor:";
+var AnimEidtorURI = "wasp-anim-editor:";
 
 
 
@@ -148,4 +148,27 @@ export class AnimEditorView<Options> extends sp.ScrollView {
     getTitle = () => 'AnimEditor'
     getIconName = () => 'git-compare'
 
+    static openfile(e){
+      var filePath = e.target.dataset.path;
+      atom.workspace.open(atomUtils.uriForPath(AnimEidtorURI, filePath), {searchAllPanes: true,filePath:filePath});
+    }
+
+    static load(){
+      atom.commands.add('.tree-view .file .name[data-name$=\\.json]', 'wasp-editor:openfile', (e) => {
+        this.openfile(e);
+      });
+
+      atom.commands.add('.tree-view .file .name[data-name$=\\.ExportJson]', 'wasp-editor:openfile', (e) => {
+        this.openfile(e);
+      });
+
+      atomUtils.registerOpener({
+          commandSelector: 'atom-workspace',
+          commandName: 'wasp:anim-editor',
+          uriProtocol: AnimEidtorURI,
+          onOpen: (data) => {
+              return new AnimEditorView(data.filePath);
+          }
+      });
+    }
 }
