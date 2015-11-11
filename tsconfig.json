@@ -26,6 +26,7 @@
         "./Engine/Source/Editor/Modules/AnimEditor/AnimEditor.ts",
         "./Engine/Source/Editor/Modules/AnimEditor/AnimEditorView.ts",
         "./Engine/Source/Editor/Modules/HeroEditor/HeroEditorView.ts",
+        "./Engine/Source/Editor/Modules/UIEditor/UIEditorView.ts",
         "./Engine/Source/Editor/tsd.d.ts",
         "./Engine/Source/Editor/utils/fsUtil.ts",
         "./Engine/Source/Editor/WaspEditor.ts",

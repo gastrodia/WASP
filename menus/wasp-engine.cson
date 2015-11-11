@@ -5,6 +5,10 @@
       'label': 'Open With AnimEditor'
       'command':  'wasp-editor:openfile'
     }
+    {
+      'label': 'Open With UIEditor'
+      'command':  'wasp-editor:uieditor'
+    }
   ]
   '.tree-view .file .name[data-name$=\\.ExportJson]':[
     {
@@ -12,6 +16,7 @@
       'command':  'wasp-editor:openfile'
     }
   ]
+  
 # 'menu': [
 #   {
 #     'label': 'Packages'
