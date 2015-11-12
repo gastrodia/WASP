@@ -16,7 +16,12 @@
       'command':  'wasp-editor:openfile'
     }
   ]
-  
+  '.tree-view .directory':[
+    {
+      'label': 'dir2json'
+      'command':  'wasp-editor:dir2json'
+    }
+  ]
 # 'menu': [
 #   {
 #     'label': 'Packages'
