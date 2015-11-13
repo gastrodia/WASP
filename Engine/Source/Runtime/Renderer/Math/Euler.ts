@@ -1,3 +1,4 @@
+
 class Euler{
 
   static DefaultOrder = 'XYZ';
@@ -79,7 +80,7 @@ class Euler{
 
   }
 
-  setFromQuaternion(){
+  setFromQuaternion( q, order, update){
 
   }
 

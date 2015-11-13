@@ -116,7 +116,7 @@ class WebGLRenderer{
 
   private _gl;
   private state:WebGLState;
-  constructor(parameters){
+  constructor(parameters?:any){
     try{
       var attributes = {
 			alpha: this._alpha,

@@ -1,12 +1,13 @@
 import Euler = require('./Euler');
 import Matrix3 = require('./Matrix3');
+import Matrix4 = require('./Matrix4');
 import Vector3 = require('./Vector3');
 class Quaternion{
   private _x:number;
   private _y:number;
   private _z:number;
   private _w:number;
-  constructor(x:number,y:number,z:number,w?:number){
+  constructor(x?:number,y?:number,z?:number,w?:number){
     this._x = x || 0;
     this._y = y || 0;
     this._z = z || 0;
@@ -140,7 +141,7 @@ class Quaternion{
     return this;
   }
 
-  setFromRotationMatrix(m:Matrix3){
+  setFromRotationMatrix(m:Matrix4){
     var te = m.elements,
 
 			m11 = te[ 0 ], m12 = te[ 4 ], m13 = te[ 8 ],

@@ -466,7 +466,7 @@ class Matrix4{
 
 	}
 
-  getInverse( m, throwOnInvertible ) {
+  getInverse( m, throwOnInvertible?:any ) {
 
 		// based on http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm
 		var te = this.elements;

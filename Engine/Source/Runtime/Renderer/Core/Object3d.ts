@@ -34,8 +34,8 @@ static DefaultMatrixAutoUpdate = true;
 
 rotationAutoUpdate = true;
 
-matrix = Matrix4();
-matrixWorld = Matrix4();
+matrix = new Matrix4();
+matrixWorld = new Matrix4();
 
 matrixAutoUpdate = Object3D.DefaultMatrixAutoUpdate;
 matrixWorldNeedsUpdate = false;
@@ -53,7 +53,7 @@ material;
 userData = {};
 
 constructor(){
-
+  super();
 	this.rotation.onChange( ()=>{
     this.quaternion.setFromEuler( this.rotation, false );
   } );
@@ -163,7 +163,7 @@ constructor(){
       }
 
       worldToLocal(vector){
-	var m1 = new Matrix4();
+	    var m1 = new Matrix4();
 			return vector.applyMatrix4( m1.getInverse( this.matrixWorld ) );
       }
 
@@ -288,7 +288,7 @@ constructor(){
   getWorldQuaternion( optionalTarget){
     var position = new Vector3();
     var scale = new Vector3();
-    var result = optionalTarget || new THREE.Quaternion();
+    var result = optionalTarget || new Quaternion();
 
     			this.updateMatrixWorld( true );
 
