@@ -4,6 +4,13 @@ import Martix4 = require('../Math/Matrix4');
 import Vector3 = require('../Math/Vector3');
 import WebGLExtensions = require('./WebGL/WebGLExtensions');
 import WebGLCapabilities = require('./WebGL/WebGLCapabilities');
+import BufferGeometry = require('../Core/BufferGeometry');
+import WebGLState = require('./WebGL/WebGLState');
+import WebGLProperties = require('./WebGL/WebGLProperties');
+import WebGLObjects = require('./WebGL/WebGLObjects');
+import WebGLPrograms = require('./WebGL/WebGLPrograms');
+import WebGLBufferRenderer = require('./WebGL/WebGLBufferRenderer');
+import WebGLIndexedBufferRenderer = require('./WebGL/WebGLIndexedBufferRenderer');
 class WebGLRenderer{
 
   private _canvas;
@@ -108,7 +115,8 @@ class WebGLRenderer{
   }
 
   private _gl;
-  constructor(parametes){
+  private state:WebGLState;
+  constructor(parameters){
     try{
       var attributes = {
 			alpha: this._alpha,
@@ -158,7 +166,7 @@ class WebGLRenderer{
 
 	var capabilities = new WebGLCapabilities( this._gl, extensions, parameters );
 
-	var state = new WebGLState( this._gl, extensions, paramThreeToGL );
+	this.state = new WebGLState( this._gl, extensions, this.paramThreeToGL );
 	var properties = new WebGLProperties();
 	var objects = new WebGLObjects( this._gl, properties, this.info );
 	var programCache = new WebGLPrograms( this, capabilities );
@@ -188,6 +196,11 @@ class WebGLRenderer{
   onContextLost(){
 
   }
+
+  paramThreeToGL ( p ){
+
+  }
+
   setSize ( width, height, updateStyle?:any ) {
 
   }

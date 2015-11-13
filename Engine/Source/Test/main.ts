@@ -17,7 +17,7 @@ var cube = new Mesh( geometry, material );
 scene.add( cube );
 
 camera.position.z = 5;
-
+ 
 var render = function () {
 	requestAnimationFrame( render );
 

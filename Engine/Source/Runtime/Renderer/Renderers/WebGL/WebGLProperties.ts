@@ -1,0 +1,5 @@
+class WebGLProperties{
+
+}
+
+export = WebGLProperties;

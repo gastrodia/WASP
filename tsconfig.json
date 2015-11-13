@@ -38,6 +38,7 @@
         "./Engine/Source/Runtime/RenderCore/RenderCore.ts",
         "./Engine/Source/Runtime/Renderer/Cameras/Camera.ts",
         "./Engine/Source/Runtime/Renderer/Cameras/PerspectiveCamera.ts",
+        "./Engine/Source/Runtime/Renderer/Core/BufferGeometry.ts",
         "./Engine/Source/Runtime/Renderer/Core/Channels.ts",
         "./Engine/Source/Runtime/Renderer/Core/EventDispatcher.ts",
         "./Engine/Source/Runtime/Renderer/Core/Geometry.ts",
