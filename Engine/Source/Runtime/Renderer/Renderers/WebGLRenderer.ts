@@ -11,6 +11,10 @@ import WebGLObjects = require('./WebGL/WebGLObjects');
 import WebGLPrograms = require('./WebGL/WebGLPrograms');
 import WebGLBufferRenderer = require('./WebGL/WebGLBufferRenderer');
 import WebGLIndexedBufferRenderer = require('./WebGL/WebGLIndexedBufferRenderer');
+import WebGLShadowMap = require('./WebGL/WebGLShadowMap');
+import LensFlarePlugin = require('./WebGL/Plugins/LensFlarePlugin');
+import SpritePlugin = require('./WebGL/Plugins/SpritePlugin');
+import WebGLRenderTargetCube = require('./WebGLRenderTargetCube');
 class WebGLRenderer{
 
   private _canvas;
@@ -70,10 +74,11 @@ class WebGLRenderer{
   private _currentCamera = null;
 
   private _usedTextureUnits = 0;
+  private _viewportWidth :number;
+  private _viewportHeight :number;
   private _viewportX = 0;
   private _viewportY = 0;
-  private _viewportWidth = this._canvas.width;
-  private _viewportHeight = this._canvas.height;
+
   private _currentWidth = 0;
   private _currentHeight = 0;
 
@@ -114,9 +119,17 @@ class WebGLRenderer{
 		programs: null
   }
 
-  private _gl;
+  private _gl:WebGLRenderingContext;
   private state:WebGLState;
   constructor(parameters?:any){
+    parameters = parameters || {};
+    this._canvas = parameters.canvas !== undefined ? parameters.canvas : document.createElement( 'canvas' );
+     this._context = parameters.context !== undefined ? parameters.context : null;
+
+     this._width = this._canvas.width;
+    this._height = this._canvas.height;
+
+    this.domElement = this._canvas;
     try{
       var attributes = {
 			alpha: this._alpha,
@@ -126,6 +139,9 @@ class WebGLRenderer{
 			premultipliedAlpha: this._premultipliedAlpha,
 			preserveDrawingBuffer: this._preserveDrawingBuffer
 		};
+
+    this._viewportWidth = this._canvas.width;
+    this._viewportHeight = this._canvas.height;
 
 		this._gl = this._context || this._canvas.getContext( 'webgl', attributes )
      || this._canvas.getContext( 'experimental-webgl', attributes );
@@ -168,6 +184,7 @@ class WebGLRenderer{
 
 	this.state = new WebGLState( this._gl, extensions, this.paramThreeToGL );
 	var properties = new WebGLProperties();
+  this.properties = properties;
 	var objects = new WebGLObjects( this._gl, properties, this.info );
 	var programCache = new WebGLPrograms( this, capabilities );
 
@@ -175,7 +192,25 @@ class WebGLRenderer{
 
 	var bufferRenderer = new WebGLBufferRenderer( this._gl, extensions, this._infoRender );
 	var indexedBufferRenderer = new WebGLIndexedBufferRenderer( this._gl, extensions, this._infoRender );
+
+
+  this.context = this._gl;
+	this.capabilities = capabilities;
+	this.extensions = extensions;
+
+
+  var shadowMap = new WebGLShadowMap( this, this.lights, objects );
+  this.shadowMap = shadowMap;
+
+  var spritePlugin = new SpritePlugin( this, this.sprites );
+	var lensFlarePlugin = new LensFlarePlugin( this, this.lensFlares );
+
   }
+
+  private capabilities:WebGLCapabilities;
+  private extensions:WebGLExtensions;
+  private shadowMap:WebGLShadowMap;
+  private properties:WebGLProperties;
 
   glClearColor(r:number,g:number,b:number,a:number){
     if(this._premultipliedAlpha === true){
@@ -183,6 +218,47 @@ class WebGLRenderer{
     }
     this._gl.clearColor(r,g,b,a);
   }
+
+  getContext(){
+    return this._gl;
+  }
+
+  getContextAttributes(){
+    return this._gl.getContextAttributes();
+  }
+
+  forceContextLoss() {
+		this.extensions.get( 'WEBGL_lose_context' ).loseContext();
+	}
+
+  getMaxAnisotropy(){
+    var value;
+    var extension = this.extensions.get( 'EXT_texture_filter_anisotropic' );
+
+			if ( extension !== null ) {
+
+				value = this._gl.getParameter( extension.MAX_TEXTURE_MAX_ANISOTROPY_EXT );
+
+			} else {
+
+				value = 0;
+
+			}
+
+			return value;
+  }
+
+  getPrecision() {
+		return this.capabilities.precision;
+	}
+
+  getPixelRatio() {
+		return this.pixelRatio;
+	}
+
+  setPixelRatio( value ) {
+		if ( value !== undefined ) this.pixelRatio = value;
+	}
 
   resetGLState(){
     this._currentProgram = null;
@@ -193,17 +269,218 @@ class WebGLRenderer{
     this.state.reset();
   }
 
-  onContextLost(){
+  getSize() {
+		return {
+			width: this._width,
+			height: this._height
+		};
+	}
 
+  setSize( width, height, updateStyle ) {
+
+		this._width = width;
+		this._height = height;
+
+		this._canvas.width = width * this.pixelRatio;
+		this._canvas.height = height * this.pixelRatio;
+
+		if ( updateStyle !== false ) {
+
+			this._canvas.style.width = width + 'px';
+			this._canvas.style.height = height + 'px';
+
+		}
+
+		this.setViewport( 0, 0, width, height );
+
+	};
+
+  setViewport = function ( x, y, width, height ) {
+
+		this._viewportX = x * this.pixelRatio;
+		this._viewportY = y * this.pixelRatio;
+
+		this._viewportWidth = width * this.pixelRatio;
+		this._viewportHeight = height * this.pixelRatio;
+
+		this._gl.viewport( this._viewportX, this._viewportY, this._viewportWidth, this._viewportHeight );
+
+	}
+
+  getViewport ( dimensions ) {
+
+		dimensions.x = this._viewportX / this.pixelRatio;
+		dimensions.y = this._viewportY / this.pixelRatio;
+
+		dimensions.z = this._viewportWidth / this.pixelRatio;
+		dimensions.w = this._viewportHeight / this.pixelRatio;
+
+	}
+
+  setScissor( x, y, width, height){
+    this._gl.scissor(
+      x * this.pixelRatio,
+			y * this.pixelRatio,
+			width * this.pixelRatio,
+			height * this.pixelRatio
+    );
   }
+
+  enableScissorTest ( bool:boolean ) {
+		this.state.setScissorTest( bool);
+	};
+
+  getClearColor(){
+		return this._clearColor;
+	};
+
+  setClearColor = function ( color, alpha ) {
+		this._clearColor.set( color );
+		this._clearAlpha = alpha !== undefined ? alpha : 1;
+		this.glClearColor( this._clearColor.r, this._clearColor.g, this._clearColor.b, this._clearAlpha );
+	};
+
+  getClearAlpha(){
+    return this._clearAlpha;
+  }
+
+  setClearAlpha( alpha ) {
+		this._clearAlpha = alpha;
+		this.glClearColor( this._clearColor.r, this._clearColor.g, this._clearColor.b, this._clearAlpha );
+	};
+
+  clear( color, depth, stencil ) {
+		var bits = 0;
+		if ( color === undefined || color ) bits |= this._gl.COLOR_BUFFER_BIT;
+		if ( depth === undefined || depth ) bits |= this._gl.DEPTH_BUFFER_BIT;
+		if ( stencil === undefined || stencil ) bits |= this._gl.STENCIL_BUFFER_BIT;
+		this._gl.clear( bits );
+	};
+
+  clearColor() {
+		this._gl.clear( this._gl.COLOR_BUFFER_BIT );
+	};
+
+  clearDepth() {
+		this._gl.clear( this._gl.DEPTH_BUFFER_BIT );
+	};
+
+  clearStencil() {
+		this._gl.clear( this._gl.STENCIL_BUFFER_BIT );
+	};
+
+  clearTarget(renderTarget, color, depth, stencil){
+    this.setRenderTarget( renderTarget );
+		this.clear( color, depth, stencil );
+  }
+
+  dispose(){
+    this._canvas.removeEventListener( 'webglcontextlost', this.onContextLost, false );
+  }
+
+  onContextLost(event){
+    event.preventDefault();
+
+    		this.resetGLState();
+    		this.setDefaultGLState();
+
+    		this.properties.clear();
+  }
+
+  onTextureDispose( event ) {
+
+		var texture = event.target;
+
+		texture.removeEventListener( 'dispose', this.onTextureDispose );
+
+		this.deallocateTexture( texture );
+
+		this._infoMemory.textures --;
+
+
+	}
+
+  onRenderTargetDispose( event ) {
+
+		var renderTarget = event.target;
+
+		renderTarget.removeEventListener( 'dispose', this.onRenderTargetDispose );
+
+		this.deallocateRenderTarget( renderTarget );
+
+		this._infoMemory.textures --;
+
+	}
+
+  onMaterialDispose( event ) {
+
+		var material = event.target;
+
+		material.removeEventListener( 'dispose', this.onMaterialDispose );
+
+		this.deallocateMaterial( material );
+
+	}
+
+  deallocateTexture( texture ) {
+
+  		var textureProperties = this.properties.get( texture );
+
+  		if ( texture.image && textureProperties.__image__webglTextureCube ) {
+
+  			// cube texture
+
+  			this._gl.deleteTexture( textureProperties.__image__webglTextureCube );
+
+  		} else {
+
+  			// 2D texture
+
+  			if ( textureProperties.__webglInit === undefined ) return;
+
+  			this._gl.deleteTexture( textureProperties.__webglTexture );
+
+  		}
+
+  		// remove all webgl properties
+  		this.properties.delete( texture );
+
+  	}
+
+    deallocateRenderTarget( renderTarget ) {
+
+  		var renderTargetProperties = this.properties.get( renderTarget );
+  		var textureProperties = this.properties.get( renderTarget.texture );
+
+  		if ( ! renderTarget || textureProperties.__webglTexture === undefined ) return;
+
+  		this._gl.deleteTexture( textureProperties.__webglTexture );
+
+  		if ( renderTarget instanceof WebGLRenderTargetCube ) {
+
+  			for ( var i = 0; i < 6; i ++ ) {
+
+  				this._gl.deleteFramebuffer( renderTargetProperties.__webglFramebuffer[ i ] );
+  				this._gl.deleteRenderbuffer( renderTargetProperties.__webglRenderbuffer[ i ] );
+
+  			}
+
+  		} else {
+
+  			this._gl.deleteFramebuffer( renderTargetProperties.__webglFramebuffer );
+  			this._gl.deleteRenderbuffer( renderTargetProperties.__webglRenderbuffer );
+
+  		}
+
+  		this.properties.delete( renderTarget.texture );
+  		this.properties.delete( renderTarget );
+
+  	}
 
   paramThreeToGL ( p ){
 
   }
 
-  setSize ( width, height, updateStyle?:any ) {
-
-  }
 
   render(scene, camera, renderTarget?:any, forceClear?:any ){
 

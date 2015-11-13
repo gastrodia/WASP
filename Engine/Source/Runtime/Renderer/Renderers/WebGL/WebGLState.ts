@@ -4,7 +4,11 @@ class WebGLState{
   }
 
   reset(){
-    
+
+  }
+
+  setScissorTest( bool:boolean){
+
   }
 }
 

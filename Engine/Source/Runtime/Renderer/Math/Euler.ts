@@ -42,7 +42,7 @@ class Euler{
   }
 
   get order(){
-    return  this.order;
+    return  this._order;
   }
 
   set order(value){

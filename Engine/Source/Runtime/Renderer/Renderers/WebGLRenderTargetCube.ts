@@ -1,0 +1,5 @@
+class WebGLRenderTargetCube{
+
+}
+
+export = WebGLRenderTargetCube;
