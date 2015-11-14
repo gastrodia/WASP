@@ -4,6 +4,11 @@ class WebGLCapabilities{
   }
 
   precision;
+  logarithmicDepthBuffer ;
+  floatVertexTextures;
+  maxTextures ;
+  maxTextureSize;
+  maxCubemapSize;
 }
 
 export = WebGLCapabilities;

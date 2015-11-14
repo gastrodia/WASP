@@ -6,6 +6,10 @@ class WebGLProperties{
   delete(textrue){
 
   }
+
+  clear(){
+    
+  }
 }
 
 export = WebGLProperties;

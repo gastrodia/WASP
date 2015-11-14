@@ -29,3 +29,9 @@ export function generateUUID():string{
 	}
   return uuid.join( '' );
 }
+
+export function isPowerOfTwo( value ) {
+
+  return ( value & ( value - 1 ) ) === 0 && value !== 0;
+
+}

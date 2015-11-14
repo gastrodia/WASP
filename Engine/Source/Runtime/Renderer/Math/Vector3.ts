@@ -88,6 +88,14 @@ class Vector3{
     return this;
   }
 
+  setFromMatrixPosition(m ){
+    this.x = m.elements[ 12 ];
+  this.y = m.elements[ 13 ];
+  this.z = m.elements[ 14 ];
+
+  return this;
+  }
+
   sub(v:Vector3){
     this.x -= v.x;
     this.y -= v.y;

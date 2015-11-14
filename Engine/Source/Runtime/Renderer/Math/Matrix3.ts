@@ -61,6 +61,7 @@ class Matrix3{
     return buffer;
   }
 
+
   multiplyScalar(s:number){
     var te = this.elements;
     te[0] *= s; te[3] *= s; te[6] *= s;

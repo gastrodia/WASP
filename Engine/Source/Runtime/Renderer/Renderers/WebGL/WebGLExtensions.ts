@@ -44,6 +44,8 @@ class WebGLExtensions{
 		return extension;
 
   }
+
+
 }
 
 export = WebGLExtensions;
