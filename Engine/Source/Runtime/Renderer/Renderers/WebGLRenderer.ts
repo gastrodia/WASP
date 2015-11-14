@@ -16,6 +16,7 @@ import LensFlarePlugin = require('./WebGL/Plugins/LensFlarePlugin');
 import SpritePlugin = require('./WebGL/Plugins/SpritePlugin');
 import WebGLRenderTargetCube = require('./WebGLRenderTargetCube');
 import MathUtil = require('../Math/MathUtil');
+import Camera = require('../Cameras/Camera');
 
 var THREE:any;
 class WebGLRenderer{
@@ -869,7 +870,7 @@ class WebGLRenderer{
    	}
 
   render(scene, camera, renderTarget?:any, forceClear?:any ){
-    if ( camera instanceof THREE.Camera === false ) {
+    if ( camera instanceof Camera === false ) {
 
     			console.error( 'THREE.WebGLRenderer.render: camera is not an instance of THREE.Camera.' );
     			return;
