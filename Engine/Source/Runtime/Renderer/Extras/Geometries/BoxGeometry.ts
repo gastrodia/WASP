@@ -5,7 +5,7 @@ import Face3 = require('../../Core/Face3');
 class BoxGeometry extends Geometry{
   type = 'BoxGeometry';
 
-  private parameters;
+
   private widthSegments;
   private heightSegments;
   private depthSegments;
