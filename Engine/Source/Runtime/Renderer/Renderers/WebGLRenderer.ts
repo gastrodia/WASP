@@ -28,7 +28,7 @@ import Points = require('../Objects/Points');
 import SkinnedMesh = require('../Objects/SkinnedMesh');
 import MeshFaceMaterial = require('../Materials/MeshFaceMaterial');
 
-import BlendingMode = require('./BlendingMode');
+import BlendingMode = require('./Const/BlendingMode');
 
 var THREE:any;
 class WebGLRenderer{

@@ -1,4 +1,4 @@
-import BlendingMode = require('../BlendingMode');
+import BlendingMode = require('../Const/BlendingMode');
 class WebGLState{
   constructor(gl, extensions, paramThreeToGL ){
 

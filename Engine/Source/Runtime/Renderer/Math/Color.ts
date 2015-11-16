@@ -14,6 +14,10 @@ class Color{
   getHex(){
 
   }
+
+  set(value){
+    
+  }
 }
 
 export = Color;

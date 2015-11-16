@@ -23,7 +23,6 @@ var render = function () {
 
 	cube.rotation.x += 0.1;
 	cube.rotation.y += 0.1;
-    debugger;
 	renderer.render(scene, camera);
 
 };

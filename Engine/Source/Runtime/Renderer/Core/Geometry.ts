@@ -26,7 +26,7 @@ class Geometry extends EventDispatcher{
   vertices = [];
   colors = [];
   faces = [];
-  faceVertexUvs = [];
+  faceVertexUvs = [[]];
 
   morphTargets = [];
   morphNormals = [];
