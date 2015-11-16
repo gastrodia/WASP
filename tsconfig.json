@@ -43,6 +43,8 @@
         "./Engine/Source/Runtime/Renderer/Core/BufferGeometry.ts",
         "./Engine/Source/Runtime/Renderer/Core/Channels.ts",
         "./Engine/Source/Runtime/Renderer/Core/EventDispatcher.ts",
+        "./Engine/Source/Runtime/Renderer/Core/Face3.ts",
+        "./Engine/Source/Runtime/Renderer/Core/Face4.ts",
         "./Engine/Source/Runtime/Renderer/Core/Geometry.ts",
         "./Engine/Source/Runtime/Renderer/Core/Object3D.ts",
         "./Engine/Source/Runtime/Renderer/Extras/Geometries/BoxGeometry.ts",

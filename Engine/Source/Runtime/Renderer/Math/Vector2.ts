@@ -271,3 +271,5 @@ class Vector2{
     return this;
   }
 }
+
+export = Vector2;
