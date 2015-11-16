@@ -5,13 +5,15 @@ import Matrix3 = require('../Math/Matrix3');
 import Euler = require('../Math/Euler');
 import Quaternion = require('../Math/Quaternion');
 import EventDispatcher = require('./EventDispatcher');
+import Channels = require('./Channels');
+
 class Object3D extends EventDispatcher{
 
 static DefaultUp = new Vector3( 0, 1, 0 );
 static DefaultMatrixAutoUpdate = true;
 
   static Object3DIdCount = 0;
-
+  public channels = new Channels();;
   uuid = MathUtils.generateUUID();
   id = Object3D.Object3DIdCount ++ ;
   name = '';
