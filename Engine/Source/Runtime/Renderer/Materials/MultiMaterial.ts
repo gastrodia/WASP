@@ -1,0 +1,5 @@
+class MultiMaterial {
+
+}
+
+export = MultiMaterial;

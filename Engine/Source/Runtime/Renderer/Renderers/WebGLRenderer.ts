@@ -20,6 +20,15 @@ import Camera = require('../Cameras/Camera');
 
 import Light = require('../Lights/Light');
 import Sprite = require('../Objects/Sprite');
+import LensFlare = require('../Objects/LensFlare');
+import ImmediateRenderObject = require('../Objects/ImmediateRenderObject');
+import Mesh = require('../Objects/Mesh');
+import Line = require('../Objects/Line');
+import Points = require('../Objects/Points');
+import SkinnedMesh = require('../Objects/SkinnedMesh');
+import MeshFaceMaterial = require('../Materials/MeshFaceMaterial');
+
+import BlendingMode = require('./BlendingMode');
 
 var THREE:any;
 class WebGLRenderer{
@@ -216,7 +225,9 @@ class WebGLRenderer{
   this.shadowMap = shadowMap;
 
   var spritePlugin = new SpritePlugin( this, this.sprites );
-	var lensFlarePlugin = new LensFlarePlugin( this, this.lensFlares );
+  this.spritePlugin = spritePlugin;
+  var lensFlarePlugin = new LensFlarePlugin( this, this.lensFlares );
+  this.lensFlarePlugin = lensFlarePlugin;
 
   }
 
@@ -954,7 +965,7 @@ class WebGLRenderer{
 
     			// opaque pass (front-to-back order)
 
-    			this.state.setBlending( THREE.NoBlending );
+    			this.state.setBlending( BlendingMode.NoBlending );
     			this.renderObjects( this.opaqueObjects, camera, this.lights, fog );
 
     			// transparent pass (back-to-front order)
@@ -2687,7 +2698,7 @@ refreshUniformsFog ( uniforms, fog ) {
 
 		} else {
 
-			this.state.setBlending( THREE.NoBlending );
+			this.state.setBlending( BlendingMode.NoBlending );
 
 		}
 

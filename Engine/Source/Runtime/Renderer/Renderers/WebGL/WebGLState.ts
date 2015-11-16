@@ -1,3 +1,4 @@
+import BlendingMode = require('../BlendingMode');
 class WebGLState{
   constructor(gl, extensions, paramThreeToGL ){
 
@@ -47,7 +48,7 @@ class WebGLState{
 
   }
 
-  setBlending( blending, blendEquation?:any, blendSrc?:any, blendDst?:any, blendEquationAlpha?:any, blendSrcAlpha?:any, blendDstAlpha?:any){
+  setBlending( blending:BlendingMode, blendEquation?:any, blendSrc?:any, blendDst?:any, blendEquationAlpha?:any, blendSrcAlpha?:any, blendDstAlpha?:any){
 
   }
 
