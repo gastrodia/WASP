@@ -5,6 +5,15 @@ class Color{
   constructor(color:number){
 
   }
+
+  copy(color){
+
+  }
+
+
+  getHex(){
+
+  }
 }
 
 export = Color;

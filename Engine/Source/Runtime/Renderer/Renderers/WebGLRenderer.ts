@@ -18,6 +18,9 @@ import WebGLRenderTargetCube = require('./WebGLRenderTargetCube');
 import MathUtil = require('../Math/MathUtil');
 import Camera = require('../Cameras/Camera');
 
+import Light = require('../Lights/Light');
+import Sprite = require('../Objects/Sprite');
+
 var THREE:any;
 class WebGLRenderer{
 
@@ -3033,19 +3036,19 @@ refreshUniformsFog ( uniforms, fog ) {
 
 		if ( ( object.channels.mask & camera.channels.mask ) !== 0 ) {
 
-			if ( object instanceof THREE.Light ) {
+			if ( object instanceof Light ) {
 
 				this.lights.push( object );
 
-			} else if ( object instanceof THREE.Sprite ) {
+			} else if ( object instanceof Sprite ) {
 
 				this.sprites.push( object );
 
-			} else if ( object instanceof THREE.LensFlare ) {
+			} else if ( object instanceof LensFlare ) {
 
 				this.lensFlares.push( object );
 
-			} else if ( object instanceof THREE.ImmediateRenderObject ) {
+			} else if ( object instanceof ImmediateRenderObject ) {
 
 				if ( this.sortObjects === true ) {
 
@@ -3056,9 +3059,9 @@ refreshUniformsFog ( uniforms, fog ) {
 
 				this.pushRenderItem( object, null, object.material, this._vector3.z, null );
 
-			} else if ( object instanceof THREE.Mesh || object instanceof THREE.Line || object instanceof THREE.Points ) {
+			} else if ( object instanceof Mesh || object instanceof Line || object instanceof Points ) {
 
-				if ( object instanceof THREE.SkinnedMesh ) {
+				if ( object instanceof SkinnedMesh ) {
 
 					object.skeleton.update();
 
@@ -3079,7 +3082,7 @@ refreshUniformsFog ( uniforms, fog ) {
 
 						var geometry = this.objects.update( object );
 
-						if ( material instanceof THREE.MeshFaceMaterial ) {
+						if ( material instanceof MeshFaceMaterial ) {
 
 							var groups = geometry.groups;
 							var materials = material.materials;

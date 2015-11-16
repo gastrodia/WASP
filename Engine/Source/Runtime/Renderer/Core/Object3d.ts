@@ -548,7 +548,7 @@ toJSON ( meta ) {
 
   	}
 
-    copy( source, recursive ) :Object3D{
+    copy( source, recursive?:any ) :Object3D{
 
 		if ( recursive === undefined ) recursive = true;
 

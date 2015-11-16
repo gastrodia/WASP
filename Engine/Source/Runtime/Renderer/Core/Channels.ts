@@ -25,3 +25,5 @@ class Channels{
 	}
 
 }
+
+export = Channels;
