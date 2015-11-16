@@ -29,6 +29,7 @@ import SkinnedMesh = require('../Objects/SkinnedMesh');
 import MeshFaceMaterial = require('../Materials/MeshFaceMaterial');
 
 import BlendingMode = require('./Const/BlendingMode');
+import Scene = require('../Scenes/Scene');
 
 var THREE:any;
 class WebGLRenderer{
@@ -183,7 +184,7 @@ class WebGLRenderer{
 
 		this._canvas.addEventListener( 'webglcontextlost', this.onContextLost, false );
     }catch(error){
-
+      console.log('webglcontextlost')
     }
 
     var extensions = new WebGLExtensions(this._gl);
@@ -883,13 +884,8 @@ class WebGLRenderer{
 
    	}
 
-  render(scene, camera, renderTarget?:any, forceClear?:any ){
-    if ( camera instanceof Camera === false ) {
+  render(scene:Scene, camera:Camera, renderTarget?:any, forceClear?:any ){
 
-    			console.error( 'THREE.WebGLRenderer.render: camera is not an instance of THREE.Camera.' );
-    			return;
-
-    		}
 
     		var fog = scene.fog;
 

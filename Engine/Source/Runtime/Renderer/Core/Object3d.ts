@@ -387,7 +387,7 @@ constructor(){
 
     	}
 
-  updateMatrixWorld( force ) {
+  updateMatrixWorld( force?:boolean ) {
 
   if ( this.matrixAutoUpdate === true ) this.updateMatrix();
 
