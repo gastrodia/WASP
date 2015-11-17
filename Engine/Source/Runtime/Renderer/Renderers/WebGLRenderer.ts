@@ -31,6 +31,7 @@ import MeshFaceMaterial = require('../Materials/MeshFaceMaterial');
 import BlendingMode = require('./Const/BlendingMode');
 import Scene = require('../Scenes/Scene');
 import ShadingSideType = require('./Const/ShadingSideType');
+import ShaderLib = require('./Shaders/ShaderLib');
 
 var THREE:any;
 class WebGLRenderer{
@@ -1085,7 +1086,7 @@ class WebGLRenderer{
 
 			if ( parameters.shaderID ) {
 
-				var shader = THREE.ShaderLib[ parameters.shaderID ];
+				var shader = ShaderLib[ parameters.shaderID ];
 
 				materialProperties.__webglShader = {
 					name: material.type,
