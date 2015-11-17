@@ -20,6 +20,8 @@
         "./Engine/Typings/**/*.ts"
     ],
     "files": [
+        "./Engine/Source/Developer/ExecTime/ExecTime.ts",
+        "./Engine/Source/Developer/Timeline/Timeline.ts",
         "./Engine/Source/Editor/atom/atomUtils.ts",
         "./Engine/Source/Editor/atom/views/view.ts",
         "./Engine/Source/Editor/config.ts",
@@ -30,7 +32,9 @@
         "./Engine/Source/Editor/Modules/AudioEditor/frequency.ts",
         "./Engine/Source/Editor/Modules/AudioEditor/play.ts",
         "./Engine/Source/Editor/Modules/AudioEditor/play&stop.ts",
+        "./Engine/Source/Editor/Modules/CurveFitToolkit/Curve.ts",
         "./Engine/Source/Editor/Modules/HeroEditor/HeroEditorView.ts",
+        "./Engine/Source/Editor/Modules/LogicGraph/Server.ts",
         "./Engine/Source/Editor/Modules/UIEditor/UIEditorView.ts",
         "./Engine/Source/Editor/tsd.d.ts",
         "./Engine/Source/Editor/utils/dir2json.ts",
