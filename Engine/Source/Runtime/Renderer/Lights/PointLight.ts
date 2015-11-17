@@ -1,0 +1,5 @@
+class PointLight{
+
+}
+
+export = PointLight;

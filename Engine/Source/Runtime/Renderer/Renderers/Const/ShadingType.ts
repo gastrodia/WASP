@@ -1,5 +1,5 @@
 enum ShadingType {
-  FlatShding,
+  FlatShading,
   SmoothShading
 }
 
