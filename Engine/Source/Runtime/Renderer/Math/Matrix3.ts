@@ -48,7 +48,7 @@ class Matrix3{
     return this
   }
 
-  applyToVector3Array(buffer,offset:number = 0,length:number){
+  applyToVector3Array(buffer,offset:number = 0,length?:number){
     var v1 = new Vector3();
     if(length === undefined) length =  buffer.length / buffer.itemSize
     for(var i = 0,j = offset;i<length;i++,j++){
