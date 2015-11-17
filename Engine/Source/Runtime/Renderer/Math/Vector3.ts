@@ -2,6 +2,7 @@ import Matrix4 = require('./Matrix4');
 import Matrix3 = require('./Matrix3');
 import Quaternion = require('./Quaternion');
 import MathUtil = require('./MathUtil');
+import Euler = require('./Euler');
 class Vector3{
 
   constructor(
@@ -145,40 +146,135 @@ class Vector3{
     return this;
   }
 
-  applyEuler(){
-    console.error('TODO');
-  }
+  applyEuler = (()=>{
+    var quaternion;
 
-  applyAxisAngle(){
-    console.error('TODO');
-  }
+		return function applyEuler( euler ) {
+			if ( euler instanceof Euler === false ) {
+				console.error( 'THREE.Vector3: .applyEuler() now expects a Euler rotation rather than a Vector3 and order.' );
+			}
+			if ( quaternion === undefined ) quaternion = new Quaternion();
+
+			this.applyQuaternion( quaternion.setFromEuler( euler ) );
+
+			return this;
+
+		};
+  })();
+
+  applyAxisAngle = (()=>{
+    var quaternion;
+		return function applyAxisAngle( axis, angle ) {
+			if ( quaternion === undefined ) quaternion = new Quaternion();
+			this.applyQuaternion( quaternion.setFromAxisAngle( axis, angle ) );
+			return this;
+		};
+  })();
 
   applyMatrix3(m:Matrix3){
-    console.error('TODO');
+    var x = this.x;
+		var y = this.y;
+		var z = this.z;
+
+		var e = m.elements;
+
+		this.x = e[ 0 ] * x + e[ 3 ] * y + e[ 6 ] * z;
+		this.y = e[ 1 ] * x + e[ 4 ] * y + e[ 7 ] * z;
+		this.z = e[ 2 ] * x + e[ 5 ] * y + e[ 8 ] * z;
+
+		return this;
   }
 
   applyMatrix4(m:Matrix4){
-    console.error('TODO');
+    var x = this.x, y = this.y, z = this.z;
+
+		var e = m.elements;
+
+		this.x = e[ 0 ] * x + e[ 4 ] * y + e[ 8 ]  * z + e[ 12 ];
+		this.y = e[ 1 ] * x + e[ 5 ] * y + e[ 9 ]  * z + e[ 13 ];
+		this.z = e[ 2 ] * x + e[ 6 ] * y + e[ 10 ] * z + e[ 14 ];
+
+		return this;
+
   }
 
   applyProjection(m:Matrix4){
-    console.error('TODO');
+    var x = this.x, y = this.y, z = this.z;
+
+		var e = m.elements;
+		var d = 1 / ( e[ 3 ] * x + e[ 7 ] * y + e[ 11 ] * z + e[ 15 ] ); // perspective divide
+
+		this.x = ( e[ 0 ] * x + e[ 4 ] * y + e[ 8 ]  * z + e[ 12 ] ) * d;
+		this.y = ( e[ 1 ] * x + e[ 5 ] * y + e[ 9 ]  * z + e[ 13 ] ) * d;
+		this.z = ( e[ 2 ] * x + e[ 6 ] * y + e[ 10 ] * z + e[ 14 ] ) * d;
+
+		return this;
   }
 
   applyQuaternion(q:Quaternion){
-    console.error('TODO');
+    var x = this.x;
+		var y = this.y;
+		var z = this.z;
+
+		var qx = q.x;
+		var qy = q.y;
+		var qz = q.z;
+		var qw = q.w;
+
+		// calculate quat * vector
+
+		var ix =  qw * x + qy * z - qz * y;
+		var iy =  qw * y + qz * x - qx * z;
+		var iz =  qw * z + qx * y - qy * x;
+		var iw = - qx * x - qy * y - qz * z;
+
+		// calculate result * inverse quat
+
+		this.x = ix * qw + iw * - qx + iy * - qz - iz * - qy;
+		this.y = iy * qw + iw * - qy + iz * - qx - ix * - qz;
+		this.z = iz * qw + iw * - qz + ix * - qy - iy * - qx;
+
+		return this;
   }
 
-  project(){
+  project = (()=>{
+    var matrix;
 
-  }
+    return ( camera )=> {
 
-  unproject(){
+      if ( matrix === undefined ) matrix = new Matrix4();
 
-  }
+      matrix.multiplyMatrices( camera.projectionMatrix, matrix.getInverse( camera.matrixWorld ) );
+      return this.applyProjection( matrix );
+
+    };
+  })();
+
+  unproject = (()=>{
+    var matrix;
+
+		return function unproject( camera ) {
+
+			if ( matrix === undefined ) matrix = new Matrix4();
+
+			matrix.multiplyMatrices( camera.matrixWorld, matrix.getInverse( camera.projectionMatrix ) );
+			return this.applyProjection( matrix );
+
+		};
+  })();
 
   transformDirection(m:Matrix4){
+    var x = this.x, y = this.y, z = this.z;
 
+		var e = m.elements;
+
+		this.x = e[ 0 ] * x + e[ 4 ] * y + e[ 8 ]  * z;
+		this.y = e[ 1 ] * x + e[ 5 ] * y + e[ 9 ]  * z;
+		this.z = e[ 2 ] * x + e[ 6 ] * y + e[ 10 ] * z;
+
+		this.normalize();
+
+		return this;
   }
 
   divide(v:Vector3){
@@ -213,10 +309,25 @@ class Vector3{
     return this;
   }
 
-  clampScalar(){
+  clampScalar = (()=>{
+    var min, max;
 
-  }
+		return ( minVal, maxVal )=> {
 
+			if ( min === undefined ) {
+
+				min = new Vector3();
+				max = new Vector3();
+
+			}
+
+			min.set( minVal, minVal, minVal );
+			max.set( maxVal, maxVal, maxVal );
+
+			return this.clamp( min, max );
+
+		};
+  })();
   clampLength(min,max){
     var length = this.length();
     this.multiplyScalar(Math.max(min,Math.min(max,length))/length);
@@ -346,15 +457,36 @@ class Vector3{
   }
 
   setFormMatrixPosition(m){
+    this.x = m.elements[ 12 ];
+    		this.y = m.elements[ 13 ];
+    		this.z = m.elements[ 14 ];
 
+    		return this;
   }
 
   setFromMatrixScale(m){
+    var sx = this.set( m.elements[ 0 ], m.elements[ 1 ], m.elements[ 2 ] ).length();
+    		var sy = this.set( m.elements[ 4 ], m.elements[ 5 ], m.elements[ 6 ] ).length();
+    		var sz = this.set( m.elements[ 8 ], m.elements[ 9 ], m.elements[ 10 ] ).length();
+
+    		this.x = sx;
+    		this.y = sy;
+    		this.z = sz;
+
+    		return this;
 
   }
 
   setFromMatrixColumn(index,matrix){
+    var offset = index * 4;
 
+    		var me = matrix.elements;
+
+    		this.x = me[ offset ];
+    		this.y = me[ offset + 1 ];
+    		this.z = me[ offset + 2 ];
+
+    		return this;
   }
 
   equals(v:Vector3){

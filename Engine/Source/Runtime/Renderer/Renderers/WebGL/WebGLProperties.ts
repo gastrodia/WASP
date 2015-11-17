@@ -1,15 +1,33 @@
 class WebGLProperties{
-  get(textrue):any{
+  properties = {};
 
-  }
+	get( object ) {
 
-  delete(textrue){
+		var uuid = object.uuid;
+		var map = this.properties[ uuid ];
 
-  }
+		if ( map === undefined ) {
 
-  clear(){
-    
-  }
+			map = {};
+			this.properties[ uuid ] = map;
+
+		}
+
+		return map;
+
+	};
+
+	delete( object ) {
+
+		delete this.properties[ object.uuid ];
+
+	};
+
+	clear() {
+
+		this.properties = {};
+
+	};
 }
 
 export = WebGLProperties;

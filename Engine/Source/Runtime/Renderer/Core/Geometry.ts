@@ -30,7 +30,7 @@ class Geometry extends EventDispatcher{
 
   morphTargets = [];
   morphNormals = [];
-  skinWeights = [];
+  skinWeights = []; 
   skinIndices = [];
 
   lineDistances = [];

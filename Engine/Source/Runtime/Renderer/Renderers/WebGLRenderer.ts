@@ -30,6 +30,7 @@ import MeshFaceMaterial = require('../Materials/MeshFaceMaterial');
 
 import BlendingMode = require('./Const/BlendingMode');
 import Scene = require('../Scenes/Scene');
+import ShadingSideType = require('./Const/ShadingSideType');
 
 var THREE:any;
 class WebGLRenderer{
@@ -1024,7 +1025,7 @@ class WebGLRenderer{
   			object.modelViewMatrix.multiplyMatrices( camera.matrixWorldInverse, object.matrixWorld );
   			object.normalMatrix.getNormalMatrix( object.modelViewMatrix );
 
-  			if ( object instanceof THREE.ImmediateRenderObject ) {
+  			if ( object instanceof ImmediateRenderObject ) {
 
   				this.setMaterial( material );
 
@@ -2708,8 +2709,8 @@ refreshUniformsFog ( uniforms, fog ) {
 
   setMaterialFaces( material ) {
 
-		material.side !== THREE.DoubleSide ? this.state.enable( this._gl.CULL_FACE ) : this.state.disable( this._gl.CULL_FACE );
-		this.state.setFlipSided( material.side === THREE.BackSide );
+		material.side !== ShadingSideType.DoubleSide ? this.state.enable( this._gl.CULL_FACE ) : this.state.disable( this._gl.CULL_FACE );
+		this.state.setFlipSided( material.side === ShadingSideType.BackSide );
 
 	}
   numericalSort ( a, b ) {

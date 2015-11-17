@@ -59,6 +59,7 @@
         "./Engine/Source/Runtime/Renderer/Math/MathUtil.ts",
         "./Engine/Source/Runtime/Renderer/Math/Matrix3.ts",
         "./Engine/Source/Runtime/Renderer/Math/Matrix4.ts",
+        "./Engine/Source/Runtime/Renderer/Math/Plane.ts",
         "./Engine/Source/Runtime/Renderer/Math/Quaternion.ts",
         "./Engine/Source/Runtime/Renderer/Math/Sphere.ts",
         "./Engine/Source/Runtime/Renderer/Math/Vector2.ts",
