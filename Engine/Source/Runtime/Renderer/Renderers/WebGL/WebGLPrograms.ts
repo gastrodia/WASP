@@ -1,4 +1,4 @@
-import WebGLProgram = require('./WebGLProgram');
+import WaspProgram = require('./WaspProgram');
 import PointLight = require('../../Lights/PointLight');
 import SpotLight = require('../../Lights/SpotLight');
 import DirectionalLight = require('../../Lights/DirectionalLight');
@@ -242,8 +242,8 @@ class WebGLPrograms{
     		}
 
     		if ( program === undefined ) {
-
-    			program = new WebGLProgram( this.renderer, code, material, parameters );
+      
+    			program = new WaspProgram( this.renderer, code, material, parameters );
     			this.programs.push( program );
 
     		}

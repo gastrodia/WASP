@@ -10,7 +10,7 @@ const radianToDegreesFactor = 180 / Math.PI;
 export function 	radToDeg (radians ) {
   return radians * radianToDegreesFactor;
 }
- 
+
 var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split( '' );
 var uuid = new Array( 36 );
 var rnd = 0, r;
@@ -35,3 +35,9 @@ export function isPowerOfTwo( value ) {
   return ( value & ( value - 1 ) ) === 0 && value !== 0;
 
 }
+
+export function euclideanModulo( n, m ) {
+
+		return ( ( n % m ) + m ) % m;
+
+	}

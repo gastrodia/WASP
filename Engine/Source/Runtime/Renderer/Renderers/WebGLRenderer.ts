@@ -32,8 +32,18 @@ import BlendingMode = require('./Const/BlendingMode');
 import Scene = require('../Scenes/Scene');
 import ShadingSideType = require('./Const/ShadingSideType');
 import ShaderLib = require('./Shaders/ShaderLib');
+import UniformsUtils = require('./Shaders/UniformsUtils');
+import ShaderMaterial = require('../Materials/ShaderMaterial');
+import MeshPhongMaterial = require('../Materials/MeshPhongMaterial');
+import MeshLambertMaterial = require('../Materials/MeshLambertMaterial');
+import MeshBasicMaterial = require('../Materials/MeshBasicMaterial');
+import LineBasicMaterial = require('../Materials/LineBasicMaterial');
+import LineDashedMaterial = require('../Materials/LineDashedMaterial');
+import PointsMaterial = require('../Materials/PointsMaterial');
+import MeshDepthMaterial = require('../Materials/MeshDepthMaterial');
+import MeshNormalMaterial = require('../Materials/MeshNormalMaterial');
 
-var THREE:any;
+var THREE:any = {};
 class WebGLRenderer{
 
   private _canvas;
@@ -1002,7 +1012,7 @@ class WebGLRenderer{
 
   updateRenderTargetMipmap( renderTarget ) {
 
-		var target = renderTarget instanceof THREE.WebGLRenderTargetCube ? this._gl.TEXTURE_CUBE_MAP : this._gl.TEXTURE_2D;
+		var target = renderTarget instanceof WebGLRenderTargetCube ? this._gl.TEXTURE_CUBE_MAP : this._gl.TEXTURE_2D;
 		var texture = this.properties.get( renderTarget.texture ).__webglTexture;
 
 		this.state.bindTexture( target, texture );
@@ -1090,7 +1100,7 @@ class WebGLRenderer{
 
 				materialProperties.__webglShader = {
 					name: material.type,
-					uniforms: THREE.UniformsUtils.clone( shader.uniforms ),
+					uniforms: UniformsUtils.clone( shader.uniforms ),
 					vertexShader: shader.vertexShader,
 					fragmentShader: shader.fragmentShader
 				};
@@ -1740,8 +1750,8 @@ refreshUniformsFog ( uniforms, fog ) {
 			// load material specific uniforms
 			// (shader material also gets them for the sake of genericity)
 
-			if ( material instanceof THREE.ShaderMaterial ||
-				 material instanceof THREE.MeshPhongMaterial ||
+			if ( material instanceof ShaderMaterial ||
+				 material instanceof MeshPhongMaterial ||
 				 material.envMap ) {
 
 				if ( p_uniforms.cameraPosition !== undefined ) {
@@ -1753,10 +1763,10 @@ refreshUniformsFog ( uniforms, fog ) {
 
 			}
 
-			if ( material instanceof THREE.MeshPhongMaterial ||
-				 material instanceof THREE.MeshLambertMaterial ||
-				 material instanceof THREE.MeshBasicMaterial ||
-				 material instanceof THREE.ShaderMaterial ||
+			if ( material instanceof MeshPhongMaterial ||
+				 material instanceof MeshLambertMaterial ||
+				 material instanceof MeshBasicMaterial ||
+				 material instanceof ShaderMaterial ||
 				 material.skinning ) {
 
 				if ( p_uniforms.viewMatrix !== undefined ) {
@@ -1832,8 +1842,8 @@ refreshUniformsFog ( uniforms, fog ) {
 
 			}
 
-			if ( material instanceof THREE.MeshPhongMaterial ||
-				 material instanceof THREE.MeshLambertMaterial ||
+			if ( material instanceof MeshPhongMaterial ||
+				 material instanceof MeshLambertMaterial ||
 				 material.lights ) {
 
 				if ( this._lightsNeedUpdate ) {
@@ -1857,9 +1867,9 @@ refreshUniformsFog ( uniforms, fog ) {
 
 			}
 
-			if ( material instanceof THREE.MeshBasicMaterial ||
-				 material instanceof THREE.MeshLambertMaterial ||
-				 material instanceof THREE.MeshPhongMaterial ) {
+			if ( material instanceof MeshBasicMaterial ||
+				 material instanceof MeshLambertMaterial ||
+				 material instanceof MeshPhongMaterial ) {
 
 				this.refreshUniformsCommon( m_uniforms, material );
 
@@ -1867,30 +1877,30 @@ refreshUniformsFog ( uniforms, fog ) {
 
 			// refresh single material specific uniforms
 
-			if ( material instanceof THREE.LineBasicMaterial ) {
+			if ( material instanceof LineBasicMaterial ) {
 
 				this.refreshUniformsLine( m_uniforms, material );
 
-			} else if ( material instanceof THREE.LineDashedMaterial ) {
+			} else if ( material instanceof LineDashedMaterial ) {
 
 				this.refreshUniformsLine( m_uniforms, material );
 				this.refreshUniformsDash( m_uniforms, material );
 
-			} else if ( material instanceof THREE.PointsMaterial ) {
+			} else if ( material instanceof PointsMaterial ) {
 
 				this.refreshUniformsParticle( m_uniforms, material );
 
-			} else if ( material instanceof THREE.MeshPhongMaterial ) {
+			} else if ( material instanceof MeshPhongMaterial ) {
 
 				this.refreshUniformsPhong( m_uniforms, material );
 
-			} else if ( material instanceof THREE.MeshDepthMaterial ) {
+			} else if ( material instanceof MeshDepthMaterial ) {
 
 				m_uniforms.mNear.value = camera.near;
 				m_uniforms.mFar.value = camera.far;
 				m_uniforms.opacity.value = material.opacity;
 
-			} else if ( material instanceof THREE.MeshNormalMaterial ) {
+			} else if ( material instanceof MeshNormalMaterial ) {
 
 				m_uniforms.opacity.value = material.opacity;
 
@@ -2211,7 +2221,7 @@ refreshUniformsFog ( uniforms, fog ) {
 
            this.setCubeTexture( texture, textureUnit );
 
-         } else if ( texture instanceof THREE.WebGLRenderTargetCube ) {
+         } else if ( texture instanceof WebGLRenderTargetCube ) {
 
            this.setCubeTextureDynamic( texture.texture, textureUnit );
 
@@ -2263,7 +2273,7 @@ refreshUniformsFog ( uniforms, fog ) {
 
              this.setTexture( texture.texture, textureUnit );
 
-           } else if ( texture instanceof THREE.WebGLRenderTargetCube ) {
+           } else if ( texture instanceof WebGLRenderTargetCube ) {
 
              this.setCubeTextureDynamic( texture.texture, textureUnit );
 
@@ -2610,7 +2620,7 @@ refreshUniformsFog ( uniforms, fog ) {
 		}
 
 		uniforms.envMap.value = material.envMap;
-		uniforms.flipEnvMap.value = ( material.envMap instanceof THREE.WebGLRenderTargetCube ) ? 1 : - 1;
+		uniforms.flipEnvMap.value = ( material.envMap instanceof WebGLRenderTargetCube ) ? 1 : - 1;
 
 		uniforms.reflectivity.value = material.reflectivity;
 		uniforms.refractionRatio.value = material.refractionRatio;
