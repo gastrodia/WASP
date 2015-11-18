@@ -20,7 +20,7 @@
         "./Engine/Typings/**/*.ts"
     ],
     "files": [
-        "./Engine/Source/Developer/ExecTime/ExecTime.ts",
+        "./Engine/Source/Developer/Profiler/Profiler.ts",
         "./Engine/Source/Developer/Timeline/Timeline.ts",
         "./Engine/Source/Editor/atom/atomUtils.ts",
         "./Engine/Source/Editor/atom/views/view.ts",
@@ -130,6 +130,7 @@
         "./Engine/Source/Runtime/Renderer/Textures/Texture.ts",
         "./Engine/Source/Test/AudioTest.ts",
         "./Engine/Source/Test/main.ts",
+        "./Engine/Source/Test/ProfilerTest.ts",
         "./Engine/Source/Tester/Tester.ts",
         "./Engine/Source/Wasp.ts"
     ],
