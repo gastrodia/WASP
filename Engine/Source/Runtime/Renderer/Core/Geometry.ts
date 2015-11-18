@@ -5,7 +5,7 @@ import Vector2 = require('../Math/Vector2');
 import Vector3 = require('../Math/Vector3');
 import Color = require('../Math/Color');
 import Box3 = require('../Math/Box3');
-import Sphere = require('../Math/Sphere');
+
 
 import EventDispatcher = require('./EventDispatcher');
 import Object3D = require('./Object3D');
@@ -30,7 +30,7 @@ class Geometry extends EventDispatcher{
 
   morphTargets = [];
   morphNormals = [];
-  skinWeights = []; 
+  skinWeights = [];
   skinIndices = [];
 
   lineDistances = [];
@@ -595,7 +595,7 @@ class Geometry extends EventDispatcher{
   computeBoundingSphere() {
 
 		if ( this.boundingSphere === null ) {
-
+      var Sphere = require('../Math/Sphere');
 			this.boundingSphere = new Sphere();
 
 		}

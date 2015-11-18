@@ -3,12 +3,18 @@ import MathUtil = require('../Math/MathUtil');
 import Geometry = require('./Geometry');
 import InterleavedBufferAttribute = require('./InterleavedBufferAttribute');
 import BufferAttribute = require('./BufferAttribute');
+import TypeAttribute = require('./TypeAttribute');
 import Object3D = require('./Object3D');
-
+import Points = require('../Objects/Points');
+import Line = require('../Objects/Line')
 import Matrix3 = require('../Math/Matrix3');
 import Matrix4 = require('../Math/Matrix4');
+import Vector3 = require('../Math/Vector3');
 
-class BufferGeometry{
+import Mesh = require('../Objects/Mesh');
+import DirectGeometry = require('./DirectGeometry');
+
+class BufferGeometry extends EventDispatcher{
 
 'id' = Geometry.IdCount ++ ;
 
@@ -28,7 +34,7 @@ class BufferGeometry{
 	boundingSphere = null;
 
 	drawRange = { start: 0, count: Infinity };
-
+	parameters;
   getIndex() {
 		return this.index;
 	}
@@ -70,7 +76,7 @@ class BufferGeometry{
 		delete this.attributes[ name ];
 	}
 
-  addGroup( start, count, materialIndex ) {
+  addGroup( start, count, materialIndex?:any) {
 
 		this.groups.push( {
 
@@ -250,17 +256,17 @@ class BufferGeometry{
 
 		var geometry = object.geometry;
 
-		if ( object instanceof THREE.Points || object instanceof THREE.Line ) {
+		if ( object instanceof Points || object instanceof Line ) {
 
-			var positions = new THREE.Float32Attribute( geometry.vertices.length * 3, 3 );
-			var colors = new THREE.Float32Attribute( geometry.colors.length * 3, 3 );
+			var positions = new TypeAttribute.Float32Attribute( geometry.vertices.length * 3, 3 );
+			var colors = new TypeAttribute.Float32Attribute( geometry.colors.length * 3, 3 );
 
 			this.addAttribute( 'position', positions.copyVector3sArray( geometry.vertices ) );
 			this.addAttribute( 'color', colors.copyColorsArray( geometry.colors ) );
 
 			if ( geometry.lineDistances && geometry.lineDistances.length === geometry.vertices.length ) {
 
-				var lineDistances = new THREE.Float32Attribute( geometry.lineDistances.length, 1 );
+				var lineDistances = new TypeAttribute.Float32Attribute( geometry.lineDistances.length, 1 );
 
 				this.addAttribute( 'lineDistance',  lineDistances.copyArray( geometry.lineDistances ) );
 
@@ -278,9 +284,9 @@ class BufferGeometry{
 
 			}
 
-		} else if ( object instanceof THREE.Mesh ) {
+		} else if ( object instanceof Mesh ) {
 
-			if ( geometry instanceof THREE.Geometry ) {
+			if ( geometry instanceof Geometry ) {
 
 				this.fromGeometry( geometry );
 
@@ -298,7 +304,7 @@ class BufferGeometry{
 
 		var geometry = object.geometry;
 
-		if ( object instanceof THREE.Mesh ) {
+		if ( object instanceof Mesh ) {
 
 			var direct = geometry.__directGeometry;
 
@@ -399,7 +405,7 @@ class BufferGeometry{
 
   fromGeometry( geometry ) {
 
-    geometry.__directGeometry = new THREE.DirectGeometry().fromGeometry( geometry );
+    geometry.__directGeometry = new DirectGeometry().fromGeometry( geometry );
 
     return this.fromDirectGeometry( geometry.__directGeometry );
 
@@ -408,33 +414,33 @@ class BufferGeometry{
   fromDirectGeometry( geometry ) {
 
     var positions = new Float32Array( geometry.vertices.length * 3 );
-    this.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ).copyVector3sArray( geometry.vertices ) );
+    this.addAttribute( 'position', new BufferAttribute( positions, 3 ).copyVector3sArray( geometry.vertices ) );
 
     if ( geometry.normals.length > 0 ) {
 
       var normals = new Float32Array( geometry.normals.length * 3 );
-      this.addAttribute( 'normal', new THREE.BufferAttribute( normals, 3 ).copyVector3sArray( geometry.normals ) );
+      this.addAttribute( 'normal', new BufferAttribute( normals, 3 ).copyVector3sArray( geometry.normals ) );
 
     }
 
     if ( geometry.colors.length > 0 ) {
 
       var colors = new Float32Array( geometry.colors.length * 3 );
-      this.addAttribute( 'color', new THREE.BufferAttribute( colors, 3 ).copyColorsArray( geometry.colors ) );
+      this.addAttribute( 'color', new BufferAttribute( colors, 3 ).copyColorsArray( geometry.colors ) );
 
     }
 
     if ( geometry.uvs.length > 0 ) {
 
       var uvs = new Float32Array( geometry.uvs.length * 2 );
-      this.addAttribute( 'uv', new THREE.BufferAttribute( uvs, 2 ).copyVector2sArray( geometry.uvs ) );
+      this.addAttribute( 'uv', new BufferAttribute( uvs, 2 ).copyVector2sArray( geometry.uvs ) );
 
     }
 
     if ( geometry.uvs2.length > 0 ) {
 
       var uvs2 = new Float32Array( geometry.uvs2.length * 2 );
-      this.addAttribute( 'uv2', new THREE.BufferAttribute( uvs2, 2 ).copyVector2sArray( geometry.uvs2 ) );
+      this.addAttribute( 'uv2', new BufferAttribute( uvs2, 2 ).copyVector2sArray( geometry.uvs2 ) );
 
     }
 
@@ -442,7 +448,7 @@ class BufferGeometry{
 
       var TypeArray = geometry.vertices.length > 65535 ? Uint32Array : Uint16Array;
       var indices = new TypeArray( geometry.indices.length * 3 );
-      this.setIndex( new THREE.BufferAttribute( indices, 1 ).copyIndicesArray( geometry.indices ) );
+      this.setIndex( new BufferAttribute( indices, 1 ).copyIndicesArray( geometry.indices ) );
 
     }
 
@@ -461,7 +467,7 @@ class BufferGeometry{
 
         var morphTarget = morphTargets[ i ];
 
-        var attribute = new THREE.Float32Attribute( morphTarget.length * 3, 3 );
+        var attribute = new TypeAttribute.Float32Attribute( morphTarget.length * 3, 3 );
 
         array.push( attribute.copyVector3sArray( morphTarget ) );
 
@@ -475,14 +481,14 @@ class BufferGeometry{
 
     if ( geometry.skinIndices.length > 0 ) {
 
-      var skinIndices = new THREE.Float32Attribute( geometry.skinIndices.length * 4, 4 );
+      var skinIndices = new TypeAttribute.Float32Attribute( geometry.skinIndices.length * 4, 4 );
       this.addAttribute( 'skinIndex', skinIndices.copyVector4sArray( geometry.skinIndices ) );
 
     }
 
     if ( geometry.skinWeights.length > 0 ) {
 
-      var skinWeights = new THREE.Float32Attribute( geometry.skinWeights.length * 4, 4 );
+      var skinWeights = new TypeAttribute.Float32Attribute( geometry.skinWeights.length * 4, 4 );
       this.addAttribute( 'skinWeight', skinWeights.copyVector4sArray( geometry.skinWeights ) );
 
     }
@@ -508,13 +514,13 @@ class BufferGeometry{
 
   computeBoundingBox = (() =>{
 
-		var vector = new THREE.Vector3();
+		var vector = new Vector3();
 
 		return function () {
 
 			if ( this.boundingBox === null ) {
-
-				this.boundingBox = new THREE.Box3();
+				var Box3 = require('../Math/Box3');
+				this.boundingBox = new Box3();
 
 			}
 
@@ -553,15 +559,15 @@ class BufferGeometry{
 
 
   computeBoundingSphere =  (()=> {
-
-		var box = new THREE.Box3();
-		var vector = new THREE.Vector3();
+		var Box3 = require('../Math/Box3');
+		var box = new Box3();
+		var vector = new Vector3();
 
 		return function () {
 
 			if ( this.boundingSphere === null ) {
-
-				this.boundingSphere = new THREE.Sphere();
+				var Sphere = require('../Math/Sphere');
+				this.boundingSphere = new Sphere();
 
 			}
 
@@ -626,7 +632,7 @@ class BufferGeometry{
 
 			if ( attributes.normal === undefined ) {
 
-				this.addAttribute( 'normal', new THREE.BufferAttribute( new Float32Array( positions.length ), 3 ) );
+				this.addAttribute( 'normal', new BufferAttribute( new Float32Array( positions.length ), 3 ) );
 
 			} else {
 
@@ -646,12 +652,12 @@ class BufferGeometry{
 
 			var vA, vB, vC,
 
-			pA = new THREE.Vector3(),
-			pB = new THREE.Vector3(),
-			pC = new THREE.Vector3(),
+			pA = new Vector3(),
+			pB = new Vector3(),
+			pC = new Vector3(),
 
-			cb = new THREE.Vector3(),
-			ab = new THREE.Vector3();
+			cb = new Vector3(),
+			ab = new Vector3();
 
 			// indexed elements
 
@@ -672,7 +678,7 @@ class BufferGeometry{
 					var start = group.start;
 					var count = group.count;
 
-					for ( var i = start, il = start + count; i < il; i += 3 ) {
+					for ( var i:number = start, il = start + count; i < il; i += 3 ) {
 
 						vA = indices[ i + 0 ] * 3;
 						vB = indices[ i + 1 ] * 3;
@@ -740,7 +746,7 @@ class BufferGeometry{
 
 	merge( geometry, offset ) {
 
-		if ( geometry instanceof THREE.BufferGeometry === false ) {
+		if ( geometry instanceof BufferGeometry === false ) {
 
 			console.error( 'THREE.BufferGeometry.merge(): geometry not an instance of THREE.BufferGeometry.', geometry );
 			return;
@@ -799,7 +805,7 @@ class BufferGeometry{
 
 	toJSON() {
 
-		var data = {
+		var data:any = {
 			metadata: {
 				version: 4.4,
 				type: 'BufferGeometry',
