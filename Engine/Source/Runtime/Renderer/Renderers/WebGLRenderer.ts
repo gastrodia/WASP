@@ -42,6 +42,7 @@ import LineDashedMaterial = require('../Materials/LineDashedMaterial');
 import PointsMaterial = require('../Materials/PointsMaterial');
 import MeshDepthMaterial = require('../Materials/MeshDepthMaterial');
 import MeshNormalMaterial = require('../Materials/MeshNormalMaterial');
+import InstancedBufferGeometry = require('../Core/InstancedBufferGeometry');
 
 var THREE:any = {};
 class WebGLRenderer{
@@ -124,8 +125,8 @@ class WebGLRenderer{
 
   private morphInfluences = new Float32Array( 8 );
 
-  private bufferRenderer = new WebGLBufferRenderer( this._gl, this.extensions, this._infoRender );
-	private indexedBufferRenderer = new WebGLIndexedBufferRenderer( this._gl, this.extensions, this._infoRender );
+  private bufferRenderer;
+	private indexedBufferRenderer;
 
   private _lights = {
     ambient:[0,0,0],
@@ -227,7 +228,8 @@ class WebGLRenderer{
 
 	var bufferRenderer = new WebGLBufferRenderer( this._gl, extensions, this._infoRender );
 	var indexedBufferRenderer = new WebGLIndexedBufferRenderer( this._gl, extensions, this._infoRender );
-
+  this.bufferRenderer = bufferRenderer;
+  this.indexedBufferRenderer = indexedBufferRenderer;
 
   this.context = this._gl;
 	this.capabilities = capabilities;
@@ -241,6 +243,8 @@ class WebGLRenderer{
   this.spritePlugin = spritePlugin;
   var lensFlarePlugin = new LensFlarePlugin( this, this.lensFlares );
   this.lensFlarePlugin = lensFlarePlugin;
+
+
 
   }
 
@@ -2869,7 +2873,7 @@ refreshUniformsFog ( uniforms, fog ) {
 
 		//
 
-		if ( object instanceof THREE.Mesh ) {
+		if ( object instanceof Mesh ) {
 
 			if ( material.wireframe === true ) {
 
@@ -2882,7 +2886,7 @@ refreshUniformsFog ( uniforms, fog ) {
 
 			}
 
-			if ( geometry instanceof THREE.InstancedBufferGeometry && geometry.maxInstancedCount > 0 ) {
+			if ( geometry instanceof InstancedBufferGeometry && geometry.maxInstancedCount > 0 ) {
 
 				renderer.renderInstances( geometry );
 
@@ -2928,13 +2932,13 @@ refreshUniformsFog ( uniforms, fog ) {
 
     var _gl = this._gl;
 
-		if ( geometry instanceof THREE.InstancedBufferGeometry ) {
+		if ( geometry instanceof InstancedBufferGeometry ) {
 
 			extension = this.extensions.get( 'ANGLE_instanced_arrays' );
 
 			if ( extension === null ) {
 
-				console.error( 'THREE.WebGLRenderer.setupVertexAttributes: using THREE.InstancedBufferGeometry but hardware does not support extension ANGLE_instanced_arrays.' );
+				console.error( 'THREE.WebGLRenderer.setupVertexAttributes: using InstancedBufferGeometry but hardware does not support extension ANGLE_instanced_arrays.' );
 				return;
 
 			}
