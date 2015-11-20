@@ -27,6 +27,7 @@
     "radium": "^0.14.3",
     "react": "^0.14.2",
     "react-dom": "^0.14.2",
+    "system-wasp-shader": "^0.1.0",
     "systemjs": "^0.16.11",
     "wozllajs": "^2.0.0"
   }
