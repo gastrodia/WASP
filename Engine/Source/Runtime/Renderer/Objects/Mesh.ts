@@ -4,7 +4,7 @@ import MeshBasicMaterial = require('../Materials/MeshBasicMaterial');
 class Mesh extends Object3D{
 
   morphTargetBase = - 1;
-  morphTargetInfluences = [];
+  morphTargetInfluences;
   morphTargetDictionary = {};
 
   constructor(geometry,material){

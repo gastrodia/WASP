@@ -1,6 +1,6 @@
 import Color = require('../Math/Color');
 import Frustum = require('../Math/Frustum');
-import Martix4 = require('../Math/Matrix4');
+import Matrix4 = require('../Math/Matrix4');
 import Vector3 = require('../Math/Vector3');
 import WebGLExtensions = require('./WebGL/WebGLExtensions');
 import WebGLCapabilities = require('./WebGL/WebGLCapabilities');
@@ -43,7 +43,8 @@ import PointsMaterial = require('../Materials/PointsMaterial');
 import MeshDepthMaterial = require('../Materials/MeshDepthMaterial');
 import MeshNormalMaterial = require('../Materials/MeshNormalMaterial');
 import InstancedBufferGeometry = require('../Core/InstancedBufferGeometry');
-
+import InterleavedBufferAttribute = require('../Core/InterleavedBufferAttribute');
+import InstancedBufferAttribute = require('../Core/InstancedBufferAttribute');
 var THREE:any = {};
 class WebGLRenderer{
 
@@ -51,120 +52,268 @@ class WebGLRenderer{
   private _context;
   private _width;
   private _height;
-  private pixelRatio = 1;
+  private pixelRatio;
   private _alpha;
   private _depth;
   private _stencil;
   private _antialias;
   private _premultipliedAlpha;
   private _preserveDrawingBuffer;
-  private _clearColor:Color = new Color(0x000000);
-  private _clearAlpha = 0;
+  private _clearColor:Color ;
+  private _clearAlpha ;
 
-  private lights = [];
-  private opaqueObjects = [];
-  private opaqueObjectsLastIndex = -1;
-  private transparentObjects = [];
-  private transparentObjectsLastIndex = -1;
+  private lights ;
+  private opaqueObjects ;
+  private opaqueObjectsLastIndex ;
+  private transparentObjects ;
+  private transparentObjectsLastIndex;
 
-  private morphInfluence = new Float32Array(8);
+  private opaqueImmediateObjects;
+	private opaqueImmediateObjectsLastIndex ;
+	private transparentImmediateObjects ;
+	private transparentImmediateObjectsLastIndex ;
 
-  private sprites = [];
-  private lensFlares = [];
+  private morphInfluence;
 
-  public domElement = this._canvas;
-  public context = null;
+  private sprites;
+  private lensFlares ;
+
+  public domElement ;
+  public context;
 
   //clearing
-  private autoClear = true;
-  private autoClearColor = true;
-  private autoClearDepth = true;
-  private autoClearStencil = true;
+  private autoClear;
+  private autoClearColor;
+  private autoClearDepth;
+  private autoClearStencil;
 
   //scene graph
-  private sortObjects = true;
+  private sortObjects;
 
   //physically based shading
-  private gammaFactor = 2.0;
-  private gammaInput = false;
-  private gammaOutput = false;
+  private gammaFactor ;
+  private gammaInput ;
+  private gammaOutput ;
 
   //morphs
-  private maxMorphTargets = 8;
-  private maxMorphNormals = 4;
+  private maxMorphTargets ;
+  private maxMorphNormals;
 
   //flags
-  private autoScaleCubemaps = true;
+  private autoScaleCubemaps ;
 
   //internal
-  private _currentProgram = null;
-  private _currentFramebuffer = null;
-  private _currentMaterialId = -1;
-  private _currentGeometryProgram = '';
-  private _currentCamera = null;
+  private _currentProgram;
+  private _currentFramebuffer;
+  private _currentMaterialId ;
+  private _currentGeometryProgram ;
+  private _currentCamera ;
 
-  private _usedTextureUnits = 0;
-  private _viewportWidth :number;
-  private _viewportHeight :number;
-  private _viewportX = 0;
-  private _viewportY = 0;
+  private _usedTextureUnits ;
+  private _viewportWidth;
+  private _viewportHeight;
+  private _viewportX ;
+  private _viewportY ;
 
-  private _currentWidth = 0;
-  private _currentHeight = 0;
+  private _currentWidth ;
+  private _currentHeight ;
 
   //frustum
-  private _frustum = new Frustum();
+  private _frustum ;
 
   //camera matrices cache
-  private _projScreenMatrix = new Martix4();
-  private _vector3 = new Vector3();
+  private _projScreenMatrix;
+  private _vector3 ;
 
   //lights array cache
-  private _direction = new Vector3();
-  private _lightsNeedUpdate = true;
+  private _direction ;
+  private _lightsNeedUpdate;
 
-  private morphInfluences = new Float32Array( 8 );
+  private morphInfluences;
 
   private bufferRenderer;
 	private indexedBufferRenderer;
 
-  private _lights = {
-    ambient:[0,0,0],
-    directional:{length:0,color:[],positions:[]},
-    point:{length:0,colors:[],positions:[],distances:[],decays:{}},
-    spot:{length:0,colors:[],positions:[],distances:{},directions:{},anglesCos: [], exponents: [], decays: [] },
-    hemi:{length: 0, skyColors: [], groundColors: [], positions: [] }
-  }
+  private _lights;
+  private _infoMemory;
 
-  private _infoMemory = {
-    geometries: 0,
-    textures: 0
-  }
+  private _infoRender;
 
-  private _infoRender = {
-    calls: 0,
-		vertices: 0,
-		faces: 0,
-		points: 0
-  }
-
-  private info = {
-    render: this._infoRender,
-		memory: this._infoMemory,
-		programs: null
-  }
+  private info;
 
   private _gl:WebGLRenderingContext;
   private state:WebGLState;
+
+  private parameters;
   constructor(parameters?:any){
     parameters = parameters || {};
-    this._canvas = parameters.canvas !== undefined ? parameters.canvas : document.createElement( 'canvas' );
-     this._context = parameters.context !== undefined ? parameters.context : null;
+    this.parameters = parameters;
 
-     this._width = this._canvas.width;
-    this._height = this._canvas.height;
+    var _canvas = parameters.canvas !== undefined ? parameters.canvas : document.createElement( 'canvas' );
+    var _context = parameters.context !== undefined ? parameters.context : null;
+    this._canvas = _canvas;
+    this._context = _context;
 
-    this.domElement = this._canvas;
+     var _width = this._canvas.width;
+     var _height = this._canvas.height;
+     this._width = _width;
+     this._height = _height;
+
+     var pixelRatio = 1;
+     this.pixelRatio = pixelRatio;
+
+    var _alpha = parameters.alpha !== undefined ? parameters.alpha : false;
+  	var _depth = parameters.depth !== undefined ? parameters.depth : true;
+  	var _stencil = parameters.stencil !== undefined ? parameters.stencil : true;
+  	var _antialias = parameters.antialias !== undefined ? parameters.antialias : false;
+  	var _premultipliedAlpha = parameters.premultipliedAlpha !== undefined ? parameters.premultipliedAlpha : true;
+  	var _preserveDrawingBuffer = parameters.preserveDrawingBuffer !== undefined ? parameters.preserveDrawingBuffer : false;
+    this._alpha = _alpha;
+    this._depth = _depth;
+    this._stencil = _stencil;
+    this._antialias = _antialias;
+    this._premultipliedAlpha = _premultipliedAlpha;
+    this._preserveDrawingBuffer = _preserveDrawingBuffer;
+
+    var _clearColor = new Color( 0x000000 );
+    var _clearAlpha = 0;
+    this._clearColor = _clearColor;
+    this._clearAlpha = _clearAlpha;
+
+    var lights = [];
+    this.lights = lights;
+
+    var opaqueObjects = [];
+    var opaqueObjectsLastIndex = -1;
+    var transparentObjects = [];
+    var transparentObjectsLastIndex = -1;
+    this.opaqueObjects = opaqueObjects;
+    this.opaqueObjectsLastIndex = opaqueObjectsLastIndex;
+    this.transparentObjects = transparentObjects;
+    this.transparentObjectsLastIndex = transparentObjectsLastIndex;
+
+    var opaqueImmediateObjects = [];
+  	var opaqueImmediateObjectsLastIndex = -1;
+  	var transparentImmediateObjects = [];
+  	var transparentImmediateObjectsLastIndex = -1;
+    this.opaqueImmediateObjects = opaqueImmediateObjects;
+    this.opaqueImmediateObjectsLastIndex = opaqueImmediateObjectsLastIndex;
+    this.transparentImmediateObjects = transparentImmediateObjects ;
+    this.transparentImmediateObjectsLastIndex = transparentImmediateObjectsLastIndex;
+
+    var morphInfluences = new Float32Array( 8 );
+    this.morphInfluence = morphInfluences;
+
+    var sprites = [];
+	  var lensFlares = [];
+    this.sprites = sprites;
+    this.lensFlares = lensFlares;
+
+    // public properties
+    this.domElement = _canvas;
+    this.context = null;
+
+    // clearing
+
+	this.autoClear = true;
+	this.autoClearColor = true;
+	this.autoClearDepth = true;
+	this.autoClearStencil = true;
+
+  // scene graph
+
+	this.sortObjects = true;
+
+	// physically based shading
+
+	this.gammaFactor = 2.0;	// for backwards compatibility
+	this.gammaInput = false;
+	this.gammaOutput = false;
+
+  // morphs
+
+	this.maxMorphTargets = 8;
+	this.maxMorphNormals = 4;
+
+	// flags
+
+	this.autoScaleCubemaps = true;
+
+	// internal properties
+  var _this = this;
+  // internal state cache
+
+	this._currentProgram = null;
+	this._currentFramebuffer = null;
+	this._currentMaterialId = - 1;
+	this._currentGeometryProgram = '';
+	this._currentCamera = null;
+
+	this._usedTextureUnits = 0;
+
+	this._viewportX = 0;
+	this._viewportY = 0;
+	this._viewportWidth = _canvas.width;
+	this._viewportHeight = _canvas.height;
+	this._currentWidth = 0;
+	this._currentHeight = 0;
+
+  // frustum
+
+	this._frustum = new Frustum(),
+
+	 // camera matrices cache
+
+	this._projScreenMatrix = new Matrix4(),
+
+	this._vector3 = new Vector3(),
+
+	// light arrays cache
+
+	this._direction = new Vector3(),
+
+	this._lightsNeedUpdate = true,
+
+	this._lights = {
+
+		ambient: [ 0, 0, 0 ],
+		directional: { length: 0, colors: [], positions: [] },
+		point: { length: 0, colors: [], positions: [], distances: [], decays: [] },
+		spot: { length: 0, colors: [], positions: [], distances: [], directions: [], anglesCos: [], exponents: [], decays: [] },
+		hemi: { length: 0, skyColors: [], groundColors: [], positions: [] }
+
+	},
+  // info
+
+	this._infoMemory = {
+
+		geometries: 0,
+		textures: 0
+
+	},
+
+	this._infoRender = {
+
+		calls: 0,
+		vertices: 0,
+		faces: 0,
+		points: 0
+
+	};
+
+	this.info = {
+
+		render: this._infoRender,
+		memory: this._infoMemory,
+		programs: null
+
+	};
+
+
+  // initialize
+
+	var _gl;
+
     try{
       var attributes = {
 			alpha: this._alpha,
@@ -231,6 +380,7 @@ class WebGLRenderer{
   this.bufferRenderer = bufferRenderer;
   this.indexedBufferRenderer = indexedBufferRenderer;
 
+  this.setDefaultGLState();
   this.context = this._gl;
 	this.capabilities = capabilities;
 	this.extensions = extensions;
@@ -2968,7 +3118,7 @@ refreshUniformsFog ( uniforms, fog ) {
 					var size = geometryAttribute.itemSize;
 					var buffer = this.objects.getAttributeBuffer( geometryAttribute );
 
-					if ( geometryAttribute instanceof THREE.InterleavedBufferAttribute ) {
+					if ( geometryAttribute instanceof InterleavedBufferAttribute ) {
 
 						var data = geometryAttribute.data;
 						var stride = data.stride;
@@ -2995,7 +3145,7 @@ refreshUniformsFog ( uniforms, fog ) {
 
 					} else {
 
-						if ( geometryAttribute instanceof THREE.InstancedBufferAttribute ) {
+						if ( geometryAttribute instanceof InstancedBufferAttribute ) {
 
 							this.state.enableAttributeAndDivisor( programAttribute, geometryAttribute.meshPerAttribute, extension );
 
