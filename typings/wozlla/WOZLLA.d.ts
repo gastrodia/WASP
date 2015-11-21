@@ -88,7 +88,7 @@ declare module WOZLLA.event {
          * @property {string} type
          * @readonly
          */
-        type: string;
+        type: string | any;
         /**
          * event origin target.
          * @member WOZLLA.event.Event
@@ -124,7 +124,7 @@ declare module WOZLLA.event {
          * @readonly
          */
         canStopBubbles: boolean;
-        _type: string;
+        _type: string | any;
         _target: EventDispatcher;
         _currentTarget: EventDispatcher;
         _data: any;
@@ -143,7 +143,7 @@ declare module WOZLLA.event {
          * @param {any} data
          * @param {boolean} canStopBubbles
          */
-        constructor(type: string, bubbles?: boolean, data?: any, canStopBubbles?: boolean);
+        constructor(type: string | any, bubbles?: boolean, data?: any, canStopBubbles?: boolean);
         /**
          * @method isStopPropagation
          * @member WOZLLA.event.Event
@@ -204,28 +204,28 @@ declare module WOZLLA.event {
          * @param {string} type
          * @param {boolean} useCapture true to check capture phase, false to check bubble and target phases.
          */
-        hasListener(type: string, useCapture?: boolean): boolean;
+        hasListener(type: string | any, useCapture?: boolean): boolean;
         /**
          * @method getListenerCount
          * @param {string} type
          * @param {boolean} useCapture true to check capture phase, false to check bubble and target phases.
          * @returns {number}
          */
-        getListenerCount(type: string, useCapture: boolean): number;
+        getListenerCount(type: string | any, useCapture: boolean): number;
         /**
          * @method addListener
          * @param {string} type
          * @param {boolean} useCapture true to check capture phase, false to check bubble and target phases.
          */
-        addListener(type: string, listener: any, useCapture?: boolean): void;
-        addListenerScope(type: string, listener: any, scope: any, useCapture?: boolean): void;
+        addListener(type: string | any, listener: any, useCapture?: boolean): void;
+        addListenerScope(type: string | any, listener: any, scope: any, useCapture?: boolean): void;
         /**
          * @method removeListener
          * @param {string} type
          * @param {boolean} useCapture true to check capture phase, false to check bubble and target phases.
          */
-        removeListener(type: string, listener: any, useCapture?: boolean): boolean;
-        removeListenerScope(type: string, listener: any, scope: any, userCapture?: boolean): boolean;
+        removeListener(type: string | any, listener: any, useCapture?: boolean): boolean;
+        removeListenerScope(type: string | any, listener: any, scope: any, userCapture?: boolean): boolean;
         /**
          * @method clearListeners
          * @param {string} type
@@ -244,7 +244,9 @@ declare module WOZLLA.event {
         dispatchEvent(event: Event): void;
         _dispatchEventInPhase(event: Event, phase: EventPhase): boolean;
         _getAncients(): any[];
-        _getListenerList(type: string, useCapture: boolean): ListenerList;
+        _getListenerList(type: string | any, useCapture: boolean): ListenerList;
+        emit(event: Event): void;
+        on(type: string | any, listener: any, useCapture?: boolean): void;
     }
 }
 declare module WOZLLA.asset {
@@ -442,6 +444,7 @@ declare module WOZLLA.asset {
             h: number;
             offsetX?: number;
             offsetY?: number;
+            offset?: any;
         };
         spriteSourceSize: {
             x: number;
@@ -479,6 +482,7 @@ declare module WOZLLA.asset {
         getSourceImage(): any;
         getTexture(): rendering.ITexture;
         getSprite(name: string | number): Sprite;
+        getSpriteData(): any;
         getSpriteCount(): number;
     }
     class SpriteAtlasLoader extends AssetLoader {
@@ -746,7 +750,7 @@ declare module WOZLLA.math {
          * @param regY
          * @returns {WOZLLA.math.Matrix}
          */
-        prependTransform(x: any, y: any, scaleX: any, scaleY: any, rotation: any, skewX: any, skewY: any, regX: any, regY: any): Matrix3x3;
+        prependTransform(x: any, y: any, scaleX: any, scaleY: any, rotation: any, skewX: any, skewY: any, regX: any, regY: any): this;
         /**
          * append 2d transform params to this matrix
          * @param x
@@ -760,7 +764,7 @@ declare module WOZLLA.math {
          * @param regY
          * @returns {WOZLLA.math.Matrix}
          */
-        appendTransform(x: any, y: any, scaleX?: number, scaleY?: number, rotation?: number, skewX?: number, skewY?: number, regX?: number, regY?: number): Matrix3x3;
+        appendTransform(x: any, y: any, scaleX?: number, scaleY?: number, rotation?: number, skewX?: number, skewY?: number, regX?: number, regY?: number): this;
     }
 }
 declare module WOZLLA {
@@ -1026,15 +1030,17 @@ declare module WOZLLA.component {
         pause: Property<boolean>;
         animation: Property<string>;
         duration: Property<number>;
-        private _animation;
-        private _loop;
-        private _pause;
-        private _duration;
-        private _animationMap;
-        private _playedTime;
-        private _playingAnimation;
-        private _playingFrame;
+        protected _animation: Property<string>;
+        protected _loop: Property<boolean>;
+        protected _pause: Property<boolean>;
+        protected _duration: Property<number>;
+        protected _stoped: Property<boolean>;
+        protected _animationMap: any;
+        protected _playedTime: number;
+        protected _playingAnimation: Animation;
+        protected _playingFrame: number;
         init(): void;
+        getNowAnimation(): any;
         update(): void;
         play(options?: PlayOptions): void;
         protected initAnimations(): void;
@@ -1854,13 +1860,6 @@ declare module WOZLLA {
          */
         isActive(): boolean;
         /**
-         * get visible in tree
-         * @method isVisible
-         * @member WOZLLA.GameObject
-         * @return {boolean}
-         */
-        isVisible(): boolean;
-        /**
          * set z order
          * @param value
          * @param sort true is set to resort children
@@ -2337,6 +2336,8 @@ declare module WOZLLA.rendering {
         private lastTime;
         private dom;
         static getInstance(): Profiler;
+        private timeCostRecordList;
+        private maxStepRecord;
         update(): void;
     }
     /**
@@ -2615,6 +2616,177 @@ declare module WOZLLA.spine {
         protected renderSlot(renderContext: rendering.RenderContext, slot: any, renderLayer: string, renderOrder: number): void;
     }
 }
+declare module WOZLLA.state {
+    /**
+     * Transition grouping to faciliate fluent api
+     * @class Transitions<T>
+     */
+    class Transitions<T> {
+        fsm: FiniteStateMachine<T>;
+        constructor(fsm: FiniteStateMachine<T>);
+        fromStates: T[];
+        toStates: T[];
+        /**
+      * Specify the end state(s) of a transition function
+      * @method to
+      * @param ...states {T[]}
+      */
+        to(...states: T[]): void;
+        toAny(states: any): void;
+    }
+    /**
+     * Internal representation of a transition function
+     * @class TransitionFunction<T>
+     */
+    class TransitionFunction<T> {
+        fsm: FiniteStateMachine<T>;
+        from: T;
+        to: T;
+        constructor(fsm: FiniteStateMachine<T>, from: T, to: T);
+    }
+    /***
+     * A simple finite state machine implemented in TypeScript, the templated argument is meant to be used
+     * with an enumeration.
+     * @class FiniteStateMachine<T>
+     */
+    class FiniteStateMachine<T> implements IFiniteStateMachine<T> {
+        currentState: T;
+        private _startState;
+        private _transitionFunctions;
+        private _onCallbacks;
+        private _exitCallbacks;
+        private _enterCallbacks;
+        /**
+      * @constructor
+      * @param startState {T} Intial starting state
+      */
+        constructor(startState: T);
+        addTransitions(fcn: Transitions<T>): void;
+        /**
+      * Listen for the transition to this state and fire the associated callback
+      * @method on
+      * @param state {T} State to listen to
+      * @param callback {fcn} Callback to fire
+      */
+        on(state: T, callback: (from?: T) => any): FiniteStateMachine<T>;
+        /**
+            * Listen for the transition to this state and fire the associated callback, returning
+            * false in the callback will block the transition to this state.
+            * @method on
+            * @param state {T} State to listen to
+            * @param callback {fcn} Callback to fire
+            */
+        onEnter(state: T, callback: (from?: T) => boolean): FiniteStateMachine<T>;
+        /**
+            * Listen for the transition to this state and fire the associated callback, returning
+            * false in the callback will block the transition from this state.
+            * @method on
+            * @param state {T} State to listen to
+            * @param callback {fcn} Callback to fire
+            */
+        onExit(state: T, callback: (to?: T) => boolean): FiniteStateMachine<T>;
+        /**
+            * Declares the start state(s) of a transition function, must be followed with a '.to(...endStates)'
+            * @method from
+            * @param ...states {T[]}
+            */
+        from(...states: T[]): Transitions<T>;
+        fromAny(states: any): Transitions<T>;
+        private _validTransition(from, to);
+        /**
+      * Check whether a transition to a new state is valide
+      * @method canGo
+      * @param state {T}
+      */
+        canGo(state: T): boolean;
+        /**
+      * Transition to another valid state
+      * @method go
+      * @param state {T}
+      */
+        go(state: T): void;
+        /**
+         * This method is availble for overridding for the sake of extensibility.
+         * It is called in the event of a successful transition.
+         * @method onTransition
+         * @param from {T}
+         * @param to {T}
+         */
+        onTransition(from: T, to: T): void;
+        /**
+      * Reset the finite state machine back to the start state, DO NOT USE THIS AS A SHORTCUT for a transition. This is for starting the fsm from the beginning.
+      * @method reset
+      */
+        reset(): void;
+        private _transitionTo(state);
+    }
+    interface IFiniteStateMachine<T> {
+        currentState: T;
+        on(state: T, callback: (from?: T) => any): any;
+        onEnter(state: T, callback: (from?: T) => boolean): any;
+        onExit(state: T, callback: (to?: T) => boolean): any;
+        from(...states: T[]): Transitions<T>;
+        fromAny(states: any): Transitions<T>;
+        canGo(state: T): boolean;
+        go(state: T): any;
+        onTransition(from: T, to: T): any;
+        reset(): void;
+    }
+    interface Stateable {
+        buildStateRules(): any;
+    }
+}
+declare module WOZLLA.state {
+    class StateBehaviour<T> extends WOZLLA.Behaviour implements IFiniteStateMachine<T> {
+        private fsm;
+        currentState: T;
+        constructor(startState: T);
+        onEnter(state: T, callback: (from?: T) => boolean): void;
+        onExit(state: T, callback: (to?: T) => boolean): void;
+        from(...states: T[]): Transitions<T>;
+        fromAny(states: any): Transitions<T>;
+        canGo(state: T): boolean;
+        go(state: T): void;
+        onTransition(from: T, to: T): void;
+        reset(): void;
+        emit(event: WOZLLA.event.Event): void;
+        on(type: string | any, listener: any, useCapture?: boolean): void;
+    }
+}
+declare module WOZLLA.state {
+    class StateEventDispatch<T> extends WOZLLA.event.EventDispatcher implements IFiniteStateMachine<T> {
+        private fsm;
+        currentState: T;
+        constructor(startState: T);
+        onEnter(state: T, callback: (from?: T) => boolean): void;
+        onExit(state: T, callback: (to?: T) => boolean): void;
+        from(...states: T[]): Transitions<T>;
+        fromAny(states: any): Transitions<T>;
+        canGo(state: T): boolean;
+        go(state: T): void;
+        onTransition(from: T, to: T): void;
+        reset(): void;
+        emit(event: WOZLLA.event.Event): void;
+        on(type: string | any, listener: any, useCapture?: boolean): void;
+    }
+}
+declare module WOZLLA.state {
+    class StateGameObject<T> extends WOZLLA.GameObject {
+        private fsm;
+        currentState: T;
+        constructor(director: Director, useRectTransform: boolean, startState: T);
+        protected onEnter(state: T, callback: (from?: T) => boolean): void;
+        protected onExit(state: T, callback: (to?: T) => boolean): void;
+        protected from(...states: T[]): Transitions<T>;
+        protected fromAny(states: any): Transitions<T>;
+        protected canGo(state: T): boolean;
+        protected go(state: T): void;
+        protected onTransition(from: T, to: T): void;
+        protected reset(): void;
+        emit(event: WOZLLA.event.Event): void;
+        on(type: string | any, listener: any, useCapture?: boolean): void;
+    }
+}
 declare module WOZLLA.util {
     class Ease {
         static get(amount: any): Function;
@@ -2875,6 +3047,14 @@ declare module WOZLLA.data {
         item: any;
         index: number;
         constructor(item: any, index: number);
+    }
+}
+declare module WOZLLA.data {
+    class SyncModel extends Model {
+        private syncList;
+        constructor(data?: any);
+        setSync(fieldDes: string, fieldSrc: string, modelSrc: Model): void;
+        protected onModelSrcFieldChange(e: event.Event): void;
     }
 }
 declare module WOZLLA.view {

@@ -1640,6 +1640,9 @@ var WOZLLA;
                 this._spriteCanche[name] = sprite;
                 return sprite;
             };
+            SpriteAtlas.prototype.getSpriteData = function () {
+                return this._spriteData;
+            };
             SpriteAtlas.prototype.getSpriteCount = function () {
                 return this._spriteData.frames.length;
             };
@@ -7300,6 +7303,9 @@ var WOZLLA;
             get: function () {
                 return this._interactiveRect;
             },
+            set: function (value) {
+                this._interactiveRect = value;
+            },
             enumerable: true,
             configurable: true
         });
@@ -9062,6 +9068,8 @@ var WOZLLA;
                 this.drawCall = 0;
                 this.fps = 0;
                 this.lastTime = 0;
+                this.timeCostRecordList = [];
+                this.maxStepRecord = 10;
             }
             Profiler.getInstance = function () {
                 if (!Profiler._instance) {
@@ -9072,7 +9080,7 @@ var WOZLLA;
             Profiler.prototype.update = function () {
                 if (!this.dom) {
                     this.dom = document.createElement('div');
-                    this.dom.style.fontSize = '11px';
+                    this.dom.style.fontSize = '32px';
                     this.dom.style.position = 'absolute';
                     this.dom.style.zIndex = '999';
                     this.dom.style.top = 0;
@@ -9084,7 +9092,18 @@ var WOZLLA;
                 var now = Date.now();
                 ;
                 if (this.lastTime) {
-                    this.fps = Math.floor(1000 / (now - this.lastTime));
+                    var timeCost = now - this.lastTime;
+                    this.timeCostRecordList.push(timeCost);
+                    if (this.timeCostRecordList.length > 10) {
+                        this.timeCostRecordList.shift();
+                    }
+                    var totalCostTime = 0;
+                    for (var i in this.timeCostRecordList) {
+                        var t = this.timeCostRecordList[i];
+                        totalCostTime += t;
+                    }
+                    var averageCostTime = totalCostTime / this.timeCostRecordList.length;
+                    this.fps = Math.floor(1000 / (averageCostTime));
                 }
                 this.lastTime = now;
                 this.dom.innerHTML = this.fps + "," + this.drawCall;
