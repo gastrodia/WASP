@@ -2,13 +2,17 @@ import Color = require('../Math/Color');
 import Vector2 = require('../Math/Vector2');
 import Vector3 = require('../Math/Vector3');
 import Vector4 = require('../Math/Vector4');
+import MathUtil = require('../Math/MathUtil');
 class BufferAttribute{
   array;
   itemSize;
   dynamic;
   updateRange;
   version;
+  uuid:string;
   constructor(array, itemSize ?:any){
+    this.uuid = MathUtil.generateUUID();
+    
     this.array = array;
 	this.itemSize = itemSize;
 
