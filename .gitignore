@@ -29,3 +29,6 @@ node_modules
 build
 .vs
 bin
+
+export
+res
