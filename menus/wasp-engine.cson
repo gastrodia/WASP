@@ -30,7 +30,7 @@
       'submenu': [
         {
           'label': 'StatusView'
-          'command': 'wasp-editor:toggle'
+          'command': 'wasp:status-view'
         }
       ]
     ]

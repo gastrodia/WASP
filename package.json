@@ -11,8 +11,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "install":"",
-    "server":"node ./Engine/Build/Developer/Servers/index"
+    "install": "",
+    "server": "node ./Engine/Build/Developer/Servers/index"
   },
   "repository": {
     "type": "git",
@@ -26,13 +26,14 @@
   "homepage": "https://github.com/gastrodia/Wasp#readme",
   "dependencies": {
     "es6-module-loader": "^0.16.6",
+    "nedb": "^1.4.0",
     "radium": "^0.14.3",
     "react": "^0.14.2",
     "react-dom": "^0.14.2",
     "system-wasp-shader": "^0.1.0",
     "systemjs": "^0.16.11",
-    "wozllajs": "^2.0.0",
-    "wasp-socket":"^1.3.7",
-    "wasp-socket-client":"^1.0.0"
+    "wasp-socket": "^1.3.7",
+    "wasp-socket-client": "^1.0.0",
+    "wozllajs": "^2.0.0"
   }
 }

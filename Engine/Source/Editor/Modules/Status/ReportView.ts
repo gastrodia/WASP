@@ -5,12 +5,14 @@ import fs = require('fs');
 import React = require('react');
 import ReactDOM = require('react-dom');
 var ReportViewURI = "wasp-report-view:";
+
 import Report = require('./Report');
 
 
-export class ReportView<Options> extends sp.ScrollView {
 
-  static content() {
+export default class ReportView<Options> extends sp.ScrollView {
+
+    static content() {
         return this.div({ class: 'wasp-report-editor' }, () => {
         });
 
@@ -68,22 +70,12 @@ export class ReportView<Options> extends sp.ScrollView {
      atom.workspace.open(atomUtils.uriForPath(ReportViewURI, filePath), {searchAllPanes: true,filePath:filePath});
     }
 
-    static openStatusView(e){
-
-    }
-
     static load(){
 
 
       atom.commands.add('.tree-view .file .name[data-name$=\\.json]', 'wasp-editor:report-view', (e) => {
         ReportView.openUIFile(e);
       });
-
-      atom.commands.add('atom-workspace', 'wasp-editor:status-view', (e) => {
-        console.log('open status view!!!');
-        ReportView.openStatusView(e);
-      });
-
 
       atomUtils.registerOpener({
           commandSelector: 'atom-workspace',

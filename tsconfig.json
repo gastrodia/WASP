@@ -17,6 +17,7 @@
     },
     "filesGlob": [
         "./Engine/Source/**/*.ts",
+        "./Engine/Source/**/*.tsx",
         "./Engine/Typings/**/*.ts"
     ],
     "files": [
@@ -26,6 +27,7 @@
         "./Engine/Source/Developer/Timeline/Timeline.ts",
         "./Engine/Source/Editor/atom/atomUtils.ts",
         "./Engine/Source/Editor/atom/views/view.ts",
+        "./Engine/Source/Editor/ChartTheme.ts",
         "./Engine/Source/Editor/config.ts",
         "./Engine/Source/Editor/globals.ts",
         "./Engine/Source/Editor/Modules/AnimEditor/AnimEditor.ts",
@@ -37,6 +39,7 @@
         "./Engine/Source/Editor/Modules/CurveFitToolkit/Curve.ts",
         "./Engine/Source/Editor/Modules/HeroEditor/HeroEditorView.ts",
         "./Engine/Source/Editor/Modules/LogicGraph/Server.ts",
+        "./Engine/Source/Editor/Modules/Status/RealtimeStatusView.ts",
         "./Engine/Source/Editor/Modules/Status/ReportView.ts",
         "./Engine/Source/Editor/Modules/UIEditor/UIEditorView.ts",
         "./Engine/Source/Editor/tsd.d.ts",
@@ -137,7 +140,7 @@
         "./Engine/Source/Test/AudioTest.ts",
         "./Engine/Source/Test/main.ts",
         "./Engine/Source/Test/ProfilerTest.ts",
-        "./Engine/Source/Test/webglClient.ts",
+        "./Engine/Source/Test/WaspSocketClientTest.ts",
         "./Engine/Source/Tester/CityData.ts",
         "./Engine/Source/Tester/drawPoint.ts",
         "./Engine/Source/Tester/Flag.ts",
@@ -145,7 +148,9 @@
         "./Engine/Source/Tester/MapTest.ts",
         "./Engine/Source/Tester/ScollerRectTest.ts",
         "./Engine/Source/Tester/Tester.ts",
-        "./Engine/Source/Wasp.ts"
+        "./Engine/Source/Wasp.ts",
+        "./Engine/Source/Editor/Modules/Status/Report.tsx",
+        "./Engine/Source/Editor/Modules/UIEditor/UIEditor.tsx"
     ],
     "exclude": []
 }

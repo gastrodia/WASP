@@ -1,8 +1,11 @@
 var app = require('http').createServer(handler)
 var io = require('wasp-socket')(app);
 var fs = require('fs');
+import path = require('path');
 
-
+var cachePath = path.join(__dirname,'../../../Cache');
+var Datastore = require('nedb');
+var db = {};
 
 function handler (req, res) {
   fs.readFile(__dirname + '/index.html',
@@ -18,9 +21,24 @@ function handler (req, res) {
 }
 
 io.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log(data);
+  socket.on('data',function(e){
+    var type = e.type;
+    if(type){
+      if(!db[type]){
+        var dbfile = path.join(cachePath,type);
+        console.log('create db ' + dbfile);
+        db[type] = new Datastore({
+          filename: dbfile,
+          autoload: true
+        });
+      }
+
+      var store = db[type];
+      store.insert(e.data,function(err){
+        if(err){console.log(err)};
+      });
+    }
+
   });
 });
 

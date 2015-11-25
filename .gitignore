@@ -30,5 +30,7 @@ build
 .vs
 bin
 
+Engine/Cache
+
 export
 res

@@ -9,7 +9,7 @@ declare module JSX {
 interface Props extends React.Props<Report> {
 
 }
-
+ 
 class Report extends React.Component<Props,{}>{
   render(){
     return <div>Report</div>;
