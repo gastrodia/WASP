@@ -18,7 +18,7 @@ var WaspShader:(gl, type, string)=>void = ( function () {
 
 		var shader = gl.createShader( type );
 
-		console.log(string);
+
 		gl.shaderSource( shader, string );
 		gl.compileShader( shader );
 

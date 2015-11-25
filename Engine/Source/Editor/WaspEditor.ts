@@ -2,6 +2,7 @@ import {$} from "atom-space-pen-views";
 import url = require('url');
 import {AnimEditorView} from './Modules/AnimEditor/AnimEditorView';
 import {UIEditorView} from './Modules/UIEditor/UIEditorView';
+import {ReportView} from './Modules/Status/ReportView';
 import dir2json = require('./utils/dir2json');
 import atomUtils = require("./atom/atomUtils");
 export interface PackageState {
@@ -11,6 +12,8 @@ export function activate(state: PackageState) {
     AnimEditorView.load();
     UIEditorView.load();
     dir2json.load();
+    ReportView.load();
+    //
 }
 
 export function deactivate(){

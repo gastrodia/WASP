@@ -22,17 +22,17 @@
       'command':  'wasp-editor:dir2json'
     }
   ]
-# 'menu': [
-#   {
-#     'label': 'Packages'
-#     'submenu': [
-#       'label': 'wasp-editor'
-#       'submenu': [
-#         {
-#           'label': 'Toggle'
-#           'command': 'wasp-editor:toggle'
-#         }
-#       ]
-#     ]
-#   }
-# ]
+'menu': [
+  {
+    'label': 'Packages'
+    'submenu': [
+      'label': 'WaspEngine'
+      'submenu': [
+        {
+          'label': 'StatusView'
+          'command': 'wasp-editor:toggle'
+        }
+      ]
+    ]
+  }
+]
