@@ -44,14 +44,15 @@ export default class RealtimeStatusView<Options> extends sp.ScrollView{
           // );
 
           var myChart = echarts.init(document.getElementById('main'),echartsTheme);
-          var maxPoint = 60 * 3;// 3 seconds
+          var maxPoint = 60 * 3;
           var formatTime = function(time:Date){
             var str = '';
-            str += time.getHours()<10 ? '0' + time.getHours() : time.getHours();
-            str += ':';
-            str += time.getMinutes()<10? '0'+ time.getMinutes() : time.getMinutes();
-            str += ':';
-            str += time.getSeconds()<10 ? '0' + time.getSeconds() : time.getSeconds();
+            // str += time.getHours()<10 ? '0' + time.getHours() : time.getHours();
+            // str += ':';
+            // str += time.getMinutes()<10? '0'+ time.getMinutes() : time.getMinutes();
+            // str += ':';
+            //str += time.getSeconds()<10 ? '0' + time.getSeconds() : time.getSeconds();
+            str += time.getSeconds() + '.' + Math.round(time.getMilliseconds()/1000);
             return str;
           }
           var option = {
