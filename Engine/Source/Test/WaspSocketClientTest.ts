@@ -1,6 +1,6 @@
 var io = require('wasp-socket-client');
 var socket = io('http://localhost:8080');
- socket.on('news', function (data) {
+ socket.on('data', function (data) {
    console.log(data);
 
  });

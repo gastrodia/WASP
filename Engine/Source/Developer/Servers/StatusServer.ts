@@ -39,6 +39,7 @@ io.on('connection', function (socket) {
       });
     }
 
+     socket.broadcast.emit('data',e.data);
   });
 });
 
