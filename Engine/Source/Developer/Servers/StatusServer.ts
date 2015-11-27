@@ -38,8 +38,12 @@ io.on('connection', function (socket) {
         if(err){console.log(err)};
       });
     }
+     if(type == 'renderStatus'){
+       socket.broadcast.emit('data',e.data);
+     }else if(type == 'consoleLog'){
+       console.log(e.data);
+     }
 
-     socket.broadcast.emit('data',e.data);
   });
 });
 

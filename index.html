@@ -15,9 +15,36 @@
 			canvas { width: 100%; height: 100% }
 		</style>
 </head>
-<body>
-</body>
+<body >
+  <button onclick="launchFullScreen(document.documentElement); ">全屏显示</button>
+  <div
+    style="
+    width: 100px;
+height: 100px;
+background-color: lightblue;
+    "
 
+    id='hammerTarget'
+    >
+  手势测试
+  </div>
+</body>
+<script>
+    // 找到适合浏览器的全屏方法
+function launchFullScreen(element) {
+  if(element.requestFullScreen) {
+    element.requestFullScreen();
+  } else if(element.mozRequestFullScreen) {
+    element.mozRequestFullScreen();
+  } else if(element.webkitRequestFullScreen) {
+    element.webkitRequestFullScreen();
+  }
+}
+
+// 启动全屏模式
+// the whole page
+//launchFullScreen(document.getElementById("main")); // any individual element
+</script>
 <script>
     //System.import('./Engine/Build/Test/ProfilerTest');
     //System.import('./Engine/Build/Test/main');
@@ -27,6 +54,7 @@
     //System.import('./Engine/Build/Tester/MapTest');
     //System.import('./Engine/Build/Tester/Flag');
 
-    System.import('./Engine/Build/Test/WaspSocketClientTest');
+    //System.import('./Engine/Build/Test/PerformanceTest');
+    System.import('./Engine/Build/Test/GestureTest');
 </script>
 </html>
