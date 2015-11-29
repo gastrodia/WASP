@@ -1,5 +1,6 @@
 import BufferAttribute = require('./BufferAttribute');
 
+declare var Uint8ClampedArray;
 
 export class Int8Attribute extends BufferAttribute{
   constructor( array, itemSize ) {

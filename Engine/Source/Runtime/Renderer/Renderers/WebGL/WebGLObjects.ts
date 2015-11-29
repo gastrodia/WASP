@@ -78,6 +78,7 @@ class WebGLObjects{
     var gl = this.gl;
 
 		attributeProperties.__webglBuffer = gl.createBuffer();
+
 		gl.bindBuffer( bufferType, attributeProperties.__webglBuffer );
 
 		var usage = data.dynamic ? gl.DYNAMIC_DRAW : gl.STATIC_DRAW;

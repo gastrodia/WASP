@@ -21941,6 +21941,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 		}
 
 		state.disableUnusedAttributes();
+		
 
 		_gl.drawArrays( _gl.TRIANGLES, 0, object.count );
 
@@ -25093,6 +25094,8 @@ THREE.WebGLBufferRenderer = function ( _gl, extensions, _infoRender ) {
 	}
 
 	function render( start, count ) {
+		
+		console.log(mode,start,count);
 
 		_gl.drawArrays( mode, start, count );
 

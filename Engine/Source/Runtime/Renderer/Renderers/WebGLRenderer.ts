@@ -1416,6 +1416,7 @@ class WebGLRenderer{
 
 		this.state.disableUnusedAttributes();
 
+    console.log( this._gl.TRIANGLES, 0, object.count )
 		this._gl.drawArrays( this._gl.TRIANGLES, 0, object.count );
 
 		object.count = 0;

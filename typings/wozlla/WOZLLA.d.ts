@@ -750,7 +750,7 @@ declare module WOZLLA.math {
          * @param regY
          * @returns {WOZLLA.math.Matrix}
          */
-        prependTransform(x: any, y: any, scaleX: any, scaleY: any, rotation: any, skewX: any, skewY: any, regX: any, regY: any): this;
+        prependTransform(x: any, y: any, scaleX: any, scaleY: any, rotation: any, skewX: any, skewY: any, regX: any, regY: any): any;
         /**
          * append 2d transform params to this matrix
          * @param x
@@ -764,7 +764,7 @@ declare module WOZLLA.math {
          * @param regY
          * @returns {WOZLLA.math.Matrix}
          */
-        appendTransform(x: any, y: any, scaleX?: number, scaleY?: number, rotation?: number, skewX?: number, skewY?: number, regX?: number, regY?: number): this;
+        appendTransform(x: any, y: any, scaleX?: number, scaleY?: number, rotation?: number, skewX?: number, skewY?: number, regX?: number, regY?: number): any;
     }
 }
 declare module WOZLLA {
