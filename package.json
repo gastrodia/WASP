@@ -13,7 +13,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "",
     "install": "",
-    "server": "node ./Engine/Build/Developer/Servers/index"
+    "server": "node ./Engine/Build/Developer/Servers/index",
+    "watch":"gulp watch",
+    "publish":"webpack"
   },
   "repository": {
     "type": "git",
@@ -39,8 +41,9 @@
   },
   "devDependencies": {
     "chai": "^3.4.1",
-    "mocha": "^2.3.4",
     "css-loader": "^0.23.0",
+    "gulp": "^3.9.0",
+    "mocha": "^2.3.4",
     "style-loader": "^0.13.0",
     "webpack": "^1.12.9"
   }

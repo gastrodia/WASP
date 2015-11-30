@@ -139,6 +139,8 @@
         "./Engine/Source/Runtime/Renderer/Textures/Texture.ts",
         "./Engine/Source/Test/AudioTest.ts",
         "./Engine/Source/Test/GestureTest.ts",
+        "./Engine/Source/Test/Math/hello.ts",
+        "./Engine/Source/Test/Math/index.ts",
         "./Engine/Source/Test/PerformanceTest.ts",
         "./Engine/Source/Test/ProfilerTest.ts",
         "./Engine/Source/Test/WaspSocketClientTest.ts",
