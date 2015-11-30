@@ -1,10 +1,10 @@
 var webpack = require('webpack');
 var uglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 module.exports = {
-    entry: "./Engine/Build/Test/main.js",
+    entry: "./Engine/Build/Wasp.js",
     output: {
         path: __dirname,
-        filename: "bundle.js"
+        filename: "./Engine/Build/Wasp.all.js"
     },
     module: {
         loaders: [
