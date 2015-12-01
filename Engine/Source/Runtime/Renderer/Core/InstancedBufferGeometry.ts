@@ -8,7 +8,7 @@ class InstancedBufferGeometry extends BufferGeometry{
   }
 
   addGroup( start, count, instances ) {
-
+ 
     	this.groups.push( {
 
     		start: start,

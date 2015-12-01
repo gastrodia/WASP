@@ -1,4 +1,4 @@
-class Vector2{
+export default class Vector2{
   constructor(public x: number = 0,public y: number = 0){
 
   }
@@ -12,6 +12,7 @@ class Vector2{
   }
 
   get height():number{
+
     return this.y;
   }
 
@@ -271,5 +272,3 @@ class Vector2{
     return this;
   }
 }
-
-export = Vector2;

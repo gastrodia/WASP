@@ -13,53 +13,92 @@ static DefaultUp = new Vector3( 0, 1, 0 );
 static DefaultMatrixAutoUpdate = true;
 
   static Object3DIdCount = 0;
-  public channels = new Channels();;
-  uuid = MathUtils.generateUUID();
-  id = Object3D.Object3DIdCount ++ ;
-  name = '';
-  type = 'Object3D';
-  parent = null;
-//  channels = new Channels();
-  children = [];
+  uuid;
+  id;
+  name;
+  type;
+  parent;
+  channels;
+  children;
 
 
 
-	up = Object3D.DefaultUp.clone();
+	up;
 
-  position =  new Vector3();
+  position ;
 
-		rotation =new Euler();
-		quaternion = new Quaternion();
-		scale = new Vector3( 1, 1, 1 );
-		modelViewMatrix = new Matrix4();
-		normalMatrix =  new Matrix3();
+	rotation;
+	quaternion ;
+	scale ;
+	modelViewMatrix;
+	normalMatrix ;
 
-rotationAutoUpdate = true;
+  rotationAutoUpdate ;
 
-matrix = new Matrix4();
-matrixWorld = new Matrix4();
+  matrix;
+  matrixWorld ;
 
-matrixAutoUpdate = Object3D.DefaultMatrixAutoUpdate;
-matrixWorldNeedsUpdate = false;
+  matrixAutoUpdate;
+  matrixWorldNeedsUpdate;
 
-visible = true;
+  visible;
 
-castShadow = false;
-receiveShadow = false;
-frustumCulled = true;
-renderOrder = 0;
+  castShadow ;
+  receiveShadow ;
+  frustumCulled  ;
+  renderOrder;
 
-geometry;
-material;
+  geometry;
+  material;
 
-userData = {};
+  userData ;
 
 constructor(){
   super();
-	this.rotation.onChange( ()=>{
+
+  this.id = Object3D.Object3DIdCount ++;
+  this.uuid = MathUtils.generateUUID();
+  this.name = '';
+  this.type = 'Object3D';
+  this.parent = null;
+  this.channels = new Channels();
+  this.children = [];
+  this.up = Object3D.DefaultUp.clone();
+
+  this.channels = new Channels();
+
+  var position = new Vector3();
+  var rotation = new Euler();
+  var quaternion = new Quaternion();
+  var scale = new Vector3(1,1,1);
+
+
+
+  this.position = position;
+  this.rotation = rotation;
+  this.quaternion = quaternion;
+  this.scale = scale;
+  this.modelViewMatrix = new Matrix4();
+  this.normalMatrix = new Matrix3();
+
+  this.rotationAutoUpdate = true;
+  this.matrix = new Matrix4();
+
+  this.matrixWorld = new Matrix4();
+  this.matrixAutoUpdate = Object3D.DefaultMatrixAutoUpdate;
+  this.matrixWorldNeedsUpdate = true;
+
+  this.visible = true;
+  this.castShadow = false;
+  this.receiveShadow = false;
+  this.frustumCulled = true;
+  this.renderOrder = 0;
+  this.userData = {};
+
+  this.rotation.onChange( ()=>{
     this.quaternion.setFromEuler( this.rotation, false );
   } );
-	this.quaternion.onChange( ()=>{
+  this.quaternion.onChange( ()=>{
     this.rotation.setFromQuaternion( this.quaternion, undefined, false );
   } );
 }
@@ -159,7 +198,6 @@ constructor(){
         var v1 = new Vector3( 0, 0, 1 );
         return this.translateOnAxis( v1, distance );
       }
-
       localToWorld(vector){
         return vector.applyMatrix4( this.matrixWorld );
       }
@@ -461,6 +499,7 @@ toJSON ( meta ) {
 		if ( this.castShadow === true ) object.castShadow = true;
 		if ( this.receiveShadow === true ) object.receiveShadow = true;
 		if ( this.visible === false ) object.visible = false;
+
 
 		object.matrix = this.matrix.toArray();
 

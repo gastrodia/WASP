@@ -3,7 +3,7 @@ import MathUtils = require('../Math/MathUtil');
 class PerspectiveCamera extends Camera{
   type = 'PerspectiveCamera';
 
-  zoom = 1;
+  zoom;
 
   fov;
   aspect;
@@ -19,6 +19,7 @@ class PerspectiveCamera extends Camera{
 
   constructor( fov, aspect, near, far){
     super();
+    this.zoom = 1;
     this.fov = fov !== undefined ? fov : 50;
     this.aspect = aspect !== undefined ? aspect : 1;
     this.near = near !== undefined ? near : 0.1;

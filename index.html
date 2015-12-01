@@ -16,7 +16,7 @@
 		</style>
 </head>
 <body >
-  <button onclick="launchFullScreen(document.documentElement); ">全屏显示</button>
+  <!-- <button onclick="launchFullScreen(document.documentElement); ">全屏显示</button>
   <div
     style="
     width: 100px;
@@ -27,7 +27,7 @@ background-color: lightblue;
     id='hammerTarget'
     >
   手势测试
-  </div>
+  </div> -->
 </body>
 <script>
     // 找到适合浏览器的全屏方法
@@ -47,7 +47,7 @@ function launchFullScreen(element) {
 </script>
 <script>
     //System.import('./Engine/Build/Test/ProfilerTest');
-    //System.import('./Engine/Build/Test/main');
+    System.import('./Engine/Build/Test/main');
     //System.import('./Engine/Build/Runtime/Framework/Trigger/Trigger');
     //System.import('./Engine/Build/Tester/ScollerRectTest');
     var App = {};
@@ -55,6 +55,6 @@ function launchFullScreen(element) {
     //System.import('./Engine/Build/Tester/Flag');
 
     //System.import('./Engine/Build/Test/PerformanceTest');
-    System.import('./Engine/Build/Test/GestureTest');
+    //System.import('./Engine/Build/Test/GestureTest');
 </script>
 </html>

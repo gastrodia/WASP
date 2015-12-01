@@ -8,6 +8,8 @@ class WebGLBufferRenderer{
 
   render( start, count ) {
 
+    console.log(this.mode,start,count);
+
 		this._gl.drawArrays( this.mode, start, count );
 
 		this._infoRender.calls ++;
