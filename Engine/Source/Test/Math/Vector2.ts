@@ -6,6 +6,6 @@ describe('Vector2',function(){
     v.x.should.be.equal(0);
     v.y.should.be.equal(0);
 
-
+ 
   })
 })

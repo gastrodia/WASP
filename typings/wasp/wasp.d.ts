@@ -1,6 +1,6 @@
 declare module Wasp {
     var ajax: any;
-}
+} 
 declare module Wasp.Math {
   class Vector2{
     new(x: number, y: number)
