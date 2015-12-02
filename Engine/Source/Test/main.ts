@@ -1,30 +1,43 @@
-import Scene = require('../Runtime/Renderer/Scenes/Scene');
-import PerspectiveCamera = require('../Runtime/Renderer/Cameras/PerspectiveCamera');
-import WebGLRenderer = require('../Runtime/Renderer/Renderers/WebGLRenderer');
-import BoxGeometry = require('../Runtime/Renderer/Extras/Geometries/BoxGeometry');
-import MeshBasicMaterial = require('../Runtime/Renderer/Materials/MeshBasicMaterial');
-import Mesh = require('../Runtime/Renderer/Objects/Mesh');
-var scene = new Scene();
-var camera = new PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
 
-var renderer = new WebGLRenderer();
-renderer.setSize( window.innerWidth, window.innerHeight );
-document.body.appendChild( renderer.domElement );
 
-var geometry = new BoxGeometry( 1, 1, 1 );
-var material = new MeshBasicMaterial( { color: 0x00ff00 } );
-var cube = new Mesh( geometry, material );
-scene.add( cube );
+import WaspRenderingContext from '../Runtime/Renderer/Renderers/WaspRenderingContext' ;
 
-camera.position.z = 5;
+var VSHADER_SOURCE =
+  'attribute vec4 a_Position;\n' + // attribute variable
+  'void main() {\n' +
+  '  gl_Position = a_Position;\n' +
+  '  gl_PointSize = 10.0;\n' +
+  '}\n';
 
-var render = function () {
-	requestAnimationFrame( render );
+// Fragment shader program
+var FSHADER_SOURCE =
+  'void main() {\n' +
+  '  gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);\n' +
+  '}\n';
+	
+// Retrieve <canvas> element
+var canvas:HTMLCanvasElement = <HTMLCanvasElement>document.getElementById('main');
 
-	cube.rotation.x += 0.1;
-	cube.rotation.y += 0.1;
-	renderer.render(scene, camera);
+// Get the rendering context for WebGL
+var wasp:WaspRenderingContext = WaspRenderingContext.getWaspContext(canvas);
 
-};
+// Initialize shaders
+wasp.initShaders(VSHADER_SOURCE, FSHADER_SOURCE)
 
-render();
+// Get the storage location of a_Position
+var a_Position = wasp.gl.getAttribLocation(wasp.program, 'a_Position');
+if (a_Position < 0) {
+	console.log('Failed to get the storage location of a_Position');
+}
+
+// Pass vertex position to attribute variable
+wasp.gl.vertexAttrib3f(a_Position, 0.0, 0.0, 0.0);
+
+// Specify the color for clearing <canvas>
+wasp.gl.clearColor(0.0, 0.0, 0.0, 1.0);
+
+// Clear <canvas>
+wasp.gl.clear(wasp.gl.COLOR_BUFFER_BIT);
+
+// Draw
+wasp.gl.drawArrays(wasp.gl.POINTS, 0, 1);

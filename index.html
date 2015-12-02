@@ -1,5 +1,4 @@
-﻿<!DOCTYPE html>
-
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
@@ -7,56 +6,19 @@
     <script src="./node_modules/es6-module-loader/dist/es6-module-loader.src.js"></script>
     <script src="./node_modules/systemjs/dist/system.src.js"></script>
     <script src="./config.js"></script>
-    <script src="./library/WOZLLA.js"></script>
-    <script src="./library/hammer.js"></script>
-    <script src="./library/navmesh.js"></script>
     <style>
 			body { margin: 0; }
 			canvas { width: 100%; height: 100% }
 		</style>
 </head>
 <body >
-  <!-- <button onclick="launchFullScreen(document.documentElement); ">全屏显示</button>
-  <div
-    style="
-    width: 100px;
-height: 100px;
-background-color: lightblue;
-    "
 
-    id='hammerTarget'
-    >
-  手势测试
-  </div> -->
   <canvas id="main" width="300" height="300"></canvas>
 </body>
-<script>
-    // 找到适合浏览器的全屏方法
-function launchFullScreen(element) {
-  if(element.requestFullScreen) {
-    element.requestFullScreen();
-  } else if(element.mozRequestFullScreen) {
-    element.mozRequestFullScreen();
-  } else if(element.webkitRequestFullScreen) {
-    element.webkitRequestFullScreen();
-  }
-}
 
-// 启动全屏模式
-// the whole page
-//launchFullScreen(document.getElementById("main")); // any individual element
-</script>
 <script>
-    //System.import('./Engine/Build/Test/ProfilerTest');
-    //System.import('./Engine/Build/Test/main');
-    //System.import('./Engine/Build/Runtime/Framework/Trigger/Trigger');
-    //System.import('./Engine/Build/Tester/ScollerRectTest');
-    var App = {};
-    //System.import('./Engine/Build/Tester/MapTest');
-    //System.import('./Engine/Build/Tester/Flag');
 
-    //System.import('./Engine/Build/Test/PerformanceTest');
-    //System.import('./Engine/Build/Test/GestureTest');
-    System.import('./Engine/Build/Sample/WebGLBook/HelloPoint')
+    System.import('./Engine/Build/Test/main');
+
 </script>
 </html>
