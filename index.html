@@ -28,6 +28,7 @@ background-color: lightblue;
     >
   手势测试
   </div> -->
+  <canvas id="main" width="300" height="300"></canvas>
 </body>
 <script>
     // 找到适合浏览器的全屏方法
@@ -47,7 +48,7 @@ function launchFullScreen(element) {
 </script>
 <script>
     //System.import('./Engine/Build/Test/ProfilerTest');
-    System.import('./Engine/Build/Test/main');
+    //System.import('./Engine/Build/Test/main');
     //System.import('./Engine/Build/Runtime/Framework/Trigger/Trigger');
     //System.import('./Engine/Build/Tester/ScollerRectTest');
     var App = {};
@@ -56,5 +57,6 @@ function launchFullScreen(element) {
 
     //System.import('./Engine/Build/Test/PerformanceTest');
     //System.import('./Engine/Build/Test/GestureTest');
+    System.import('./Engine/Build/Sample/WebGLBook/HelloPoint')
 </script>
 </html>

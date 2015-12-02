@@ -15,42 +15,42 @@
     }
   }
 
-   class ListView extends WOZLLA.view.SimpleListView<ItemModel>{
-      constructListItemView(itemModel:ItemModel){
-        var itemView = new ItemView(this.director);
-          itemView.bindModel(itemModel);
-          return itemView;
-      }
-
-      protected initLayoutManager():WOZLLA.view.LayoutManager {
-          var layout:any = super.initLayoutManager();
-          layout.columnCount = 10;
-          layout.margin.top = 0;
-          layout.margin.left = 0;
-          layout.cellMargin.top = 0;
-          layout.cellMargin.right = 200;
-
-          return layout;
-      }
-
-   }
-
-    class ItemView extends WOZLLA.view.SimpleView {
-        constructView(){
-           var content = director.createGameObject(true);
-           var imageRenderer = new WOZLLA.component.ImageRenderer();
-           imageRenderer.imageSrc.set('./resource/sanwu.jpg');
-           content.addComponent(imageRenderer);
-           var contentRectCollider = new WOZLLA.component.RectCollider();
-          contentRectCollider.setRegion(0, 0, 200, 200);
-          content.addComponent(contentRectCollider);
-          content.touchable = true;
-          content.addListener('tap',function(){
-             alert('tap itemView');
-          });
-           this.addChild(content);
-        }
+  class ListView extends WOZLLA.view.SimpleListView<ItemModel>{
+    constructListItemView(itemModel:ItemModel){
+      var itemView = new ItemView(this.director);
+        itemView.bindModel(itemModel);
+        return itemView;
     }
+
+    protected initLayoutManager():WOZLLA.view.LayoutManager {
+        var layout:any = super.initLayoutManager();
+        layout.columnCount = 10;
+        layout.margin.top = 0;
+        layout.margin.left = 0;
+        layout.cellMargin.top = 0;
+        layout.cellMargin.right = 200;
+
+        return layout;
+    }
+
+  }
+
+  class ItemView extends WOZLLA.view.SimpleView {
+      constructView(){
+         var content = director.createGameObject(true);
+         var imageRenderer = new WOZLLA.component.ImageRenderer();
+         imageRenderer.imageSrc.set('./resource/sanwu.jpg');
+         content.addComponent(imageRenderer);
+         var contentRectCollider = new WOZLLA.component.RectCollider();
+        contentRectCollider.setRegion(0, 0, 200, 200);
+        content.addComponent(contentRectCollider);
+        content.touchable = true;
+        content.addListener('tap',function(){
+           alert('tap itemView');
+        });
+         this.addChild(content);
+      }
+  }
 
 
 
@@ -84,7 +84,7 @@
    rectMask.endOrder.set(10);
    scroll.addComponent(rectMask);
 
-   scroll.interactiveRect = new WOZLLA.math.Rectangle(0,0,600,200); 
+   scroll.interactiveRect = new WOZLLA.math.Rectangle(0,0,600,200);
 
    var content = director.createGameObject(true);
    content.name = 'content';
