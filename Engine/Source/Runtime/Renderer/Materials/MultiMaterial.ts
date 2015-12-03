@@ -1,5 +1,0 @@
-class MultiMaterial {
-
-}
-
-export = MultiMaterial;

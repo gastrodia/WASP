@@ -1,0 +1,44 @@
+{
+    "version": "next",
+    "compilerOptions": {
+        "declaration": true,
+        "target": "es5",
+        "module": "commonjs",
+        "noImplicitAny": false,
+        "removeComments": true,
+        "noLib": false,
+        "preserveConstEnums": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "sourceMap": true,
+        "jsx": "react",
+        "outDir": "./Build"
+    },
+    "filesGlob": [
+        "./Source/**/*.ts",
+        "./Source/**/*.tsx"
+    ],
+    "files": [
+        "./Source/Math/Box3.ts",
+        "./Source/Math/Color.ts",
+        "./Source/Math/Euler.ts",
+        "./Source/Math/Frustum.ts",
+        "./Source/Math/MathUtil.ts",
+        "./Source/Math/Matrix3.ts",
+        "./Source/Math/Matrix4.ts",
+        "./Source/Math/Plane.ts",
+        "./Source/Math/Quaternion.ts",
+        "./Source/Math/Sphere.ts",
+        "./Source/Math/Vector2.ts",
+        "./Source/Math/Vector3.ts",
+        "./Source/Math/Vector4.ts",
+        "./Source/Math/index.ts",
+        "./Source/Renderer/Renderers/WaspRenderingContext.ts",
+        "./Source/WaspRuntime.ts"
+    ],
+    "exclude": [],
+    "atom": {
+        "rewriteTsconfig": true
+    }
+}

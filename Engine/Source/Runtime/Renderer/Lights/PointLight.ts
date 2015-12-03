@@ -1,5 +1,0 @@
-class PointLight{
-
-}
-
-export = PointLight;
