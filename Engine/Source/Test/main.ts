@@ -1,6 +1,6 @@
 
 
-import WaspRenderingContext from '../Runtime/Renderer/Renderers/WaspRenderingContext' ;
+import Wasp from '../Wasp' ;
 
 var VSHADER_SOURCE =
   'attribute vec4 a_Position;\n' + // attribute variable
@@ -14,12 +14,12 @@ var FSHADER_SOURCE =
   'void main() {\n' +
   '  gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);\n' +
   '}\n';
-	
+
 // Retrieve <canvas> element
 var canvas:HTMLCanvasElement = <HTMLCanvasElement>document.getElementById('main');
 
 // Get the rendering context for WebGL
-var wasp:WaspRenderingContext = WaspRenderingContext.getWaspContext(canvas);
+var wasp = Wasp.RenderingContext.getWaspContext(canvas);
 
 // Initialize shaders
 wasp.initShaders(VSHADER_SOURCE, FSHADER_SOURCE)
