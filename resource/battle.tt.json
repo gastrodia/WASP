@@ -1,0 +1,66 @@
+{"frames": {
+
+"crit1.png":
+{
+	"frame": {"x":423,"y":54,"w":491,"h":50},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":491,"h":50},
+	"sourceSize": {"w":492,"h":50},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"crit_T.png":
+{
+	"frame": {"x":423,"y":106,"w":93,"h":51},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":93,"h":51},
+	"sourceSize": {"w":93,"h":51},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"return_T.png":
+{
+	"frame": {"x":423,"y":159,"w":90,"h":50},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":90,"h":50},
+	"sourceSize": {"w":90,"h":50},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"return_blood_1.png":
+{
+	"frame": {"x":423,"y":2,"w":492,"h":50},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":492,"h":50},
+	"sourceSize": {"w":492,"h":50},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"小技能背景.png":
+{
+	"frame": {"x":515,"y":159,"w":38,"h":38},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":38,"h":38},
+	"sourceSize": {"w":38,"h":38},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"脚下魔法阵.png":
+{
+	"frame": {"x":2,"y":2,"w":419,"h":224},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":419,"h":224},
+	"sourceSize": {"w":419,"h":224},
+	"pivot": {"x":0.5,"y":0.5}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "battle.tt.png",
+	"format": "RGBA8888",
+	"size": {"w":917,"h":228},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:e9884f949f5b74b6de54cf1b31e9df4d:7cbba0c740abb34ba8395397c69e5899:da8a52bed927c17c2a105e829bb9671b$"
+}
+}
