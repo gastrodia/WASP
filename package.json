@@ -44,7 +44,8 @@
   "devDependencies": {
     "chai": "^3.4.1",
     "css-loader": "^0.23.0",
-    "dts-generator": "^1.6.2",
+    "dts-bundle": "^0.3.0",
+    "dts-generator": "^1.6.3",
     "gulp": "^3.9.0",
     "mocha": "^2.3.4",
     "style-loader": "^0.13.0",

@@ -1,4 +1,0 @@
-class SpotLight{
-
-}
-export = SpotLight;

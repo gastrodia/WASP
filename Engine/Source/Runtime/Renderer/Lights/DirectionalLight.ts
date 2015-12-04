@@ -1,5 +1,0 @@
-class DirectionalLight{
-
-}
-
-export = DirectionalLight

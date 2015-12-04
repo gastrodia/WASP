@@ -1,4 +1,0 @@
-class RawShaderMaterial{
-
-}
-export = RawShaderMaterial;
